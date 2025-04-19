@@ -1,0 +1,213 @@
+name: Track Vertex AI in Firebase Discovery Document Changes
+
+on:
+  workflow_dispatch: # Allows manual triggering
+  schedule:
+    - cron: '0 4 * * *' # Runs daily at 4:00 UTC
+
+permissions:
+  contents: write # Needed to checkout, create branch, commit to branch
+  pull-requests: write # Needed by create-pull-request action
+
+env:
+  DISCOVERY_DOC_URL: "https://firebasevertexai.googleapis.com/$discovery/rest?version=v1beta"
+  DISCOVERY_DOC_PATH: "discovery_docs/firebasevertexai-v1beta/discovery.json"
+  CHANGELOG_PATH: "discovery_docs/firebasevertexai-v1beta/CHANGELOG.md"
+  TEMP_NEW_DOC: "new-discovery.json"
+  TEMP_OLD_DOC: "old-discovery-formatted.json" # For formatted comparison
+  TEMP_NEW_DOC_FORMATTED: "new-discovery-formatted.json" # For formatted comparison
+  DIFF_OUTPUT_PATH: "diff_output.txt"
+  GEMINI_API_ENDPOINT: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
+
+jobs:
+  track-and-summarize:
+    runs-on: ubuntu-latest
+    outputs:
+      changes_detected: ${{ steps.check_diff.outputs.changes_detected }}
+      current_date: ${{ steps.set_date.outputs.date }}
+      pr_branch_name: ${{ steps.set_pr_vars.outputs.branch_name }}
+      gemini_summary: ${{ steps.generate_summary.outputs.summary }} # Output summary for PR step
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch all history for diffing and date checks
+
+      - name: Set current date # Used for branch name, commit message, PR title
+        id: set_date
+        run: echo "date=$(date -u +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+
+      - name: Set up Git user # Still needed for the commit within the PR branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Ensure discovery directory exists
+        run: mkdir -p $(dirname "$DISCOVERY_DOC_PATH")
+
+      - name: Download latest Discovery Document
+        run: |
+          echo "Downloading latest document from $DISCOVERY_DOC_URL"
+          curl -s -f -L "$DISCOVERY_DOC_URL" -o "${RUNNER_TEMP}/${TEMP_NEW_DOC}"
+          if [ $? -ne 0 ]; then
+            echo "::error::Failed to download Discovery Document."
+            exit 1
+          fi
+          echo "Download complete."
+
+      - name: Check if existing document exists
+        id: check_existing
+        run: |
+          if [ -f "$DISCOVERY_DOC_PATH" ]; then
+            echo "existing_doc_found=true" >> $GITHUB_OUTPUT
+          else
+            echo "existing_doc_found=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Format JSON files for consistent diffing
+        run: |
+          # Format new doc
+          if ! jq '.' "${RUNNER_TEMP}/${TEMP_NEW_DOC}" > "${RUNNER_TEMP}/${TEMP_NEW_DOC_FORMATTED}"; then
+             echo "::warning::Downloaded document is not valid JSON. Proceeding with text diff."
+             cp "${RUNNER_TEMP}/${TEMP_NEW_DOC}" "${RUNNER_TEMP}/${TEMP_NEW_DOC_FORMATTED}"
+          fi
+
+          # Format existing doc if it exists
+          if [ "${{ steps.check_existing.outputs.existing_doc_found }}" == "true" ]; then
+            if ! jq '.' "$DISCOVERY_DOC_PATH" > "${RUNNER_TEMP}/${TEMP_OLD_DOC}"; then
+              echo "::warning::Existing document is not valid JSON. Proceeding with text diff."
+              cp "$DISCOVERY_DOC_PATH" "${RUNNER_TEMP}/${TEMP_OLD_DOC}"
+            fi
+          else
+             # Create an empty file to diff against if no existing doc
+             touch "${RUNNER_TEMP}/${TEMP_OLD_DOC}"
+          fi
+
+      - name: Check for differences
+        id: check_diff
+        run: |
+          if ! diff -q "${RUNNER_TEMP}/${TEMP_OLD_DOC}" "${RUNNER_TEMP}/${TEMP_NEW_DOC_FORMATTED}" > /dev/null; then
+            echo "changes_detected=true" >> $GITHUB_OUTPUT
+            echo "Changes detected in the Discovery Document."
+            # Generate the diff output for later steps
+            diff -u "${RUNNER_TEMP}/${TEMP_OLD_DOC}" "${RUNNER_TEMP}/${TEMP_NEW_DOC_FORMATTED}" > "$DIFF_OUTPUT_PATH" || true # Allow diff to exit with 1 if files differ
+          else
+            echo "changes_detected=false" >> $GITHUB_OUTPUT
+            echo "No changes detected in the Discovery Document."
+          fi
+
+      # --- Steps below only run if changes are detected ---
+
+      - name: Update local files
+        if: steps.check_diff.outputs.changes_detected == 'true'
+        run: |
+          echo "Updating local files with detected changes..."
+          # Overwrite the old file with the new formatted version
+          mv "${RUNNER_TEMP}/${TEMP_NEW_DOC_FORMATTED}" "$DISCOVERY_DOC_PATH"
+          echo "Updated $DISCOVERY_DOC_PATH locally."
+
+      - name: Generate Summary with Gemini API
+        id: generate_summary
+        if: steps.check_diff.outputs.changes_detected == 'true'
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          echo "Attempting to generate summary using Gemini API..."
+          GEMINI_SUMMARY="Could not generate summary (Gemini API key missing, call failed, or diff too large)." # Default message
+
+          DIFF_CONTENT=$(head -c 15000 "$DIFF_OUTPUT_PATH") # Limit diff size for API
+          if [ $(wc -c < "$DIFF_OUTPUT_PATH") -gt 15000 ]; then
+            echo "::warning::Diff content truncated for Gemini summary due to size limits."
+            DIFF_CONTENT+=$'\n... (diff truncated)'
+          fi
+
+          # Escape diff content for JSON payload
+          # Use jq's --null-input and --raw-input/-R to handle multi-line strings and escaping
+          ESCAPED_DIFF_CONTENT=$(jq --null-input --raw-input --slurp '{"text": .}' <<< "$DIFF_CONTENT" | jq -r '.text')
+
+          if [ -z "$GEMINI_API_KEY" ]; then
+             echo "::warning::GEMINI_API_KEY secret not set. Skipping summary generation."
+          elif [ -z "$ESCAPED_DIFF_CONTENT" ]; then
+             echo "::warning::Diff content is empty. Skipping summary generation."
+             GEMINI_SUMMARY="No changes detected in diff content." # More specific default
+          else
+            API_RESPONSE=$(curl -s -X POST "$GEMINI_API_ENDPOINT?key=$GEMINI_API_KEY" \
+              -H "Content-Type: application/json" \
+              --data @- <<EOF
+              {
+                "contents": [{
+                  "parts": [{
+                    "text": "Summarize the key changes from the following diff of a Google API Discovery Document. Focus on added/removed methods or significant parameter changes. Be concise:\n\n\`\`\`diff\n${ESCAPED_DIFF_CONTENT}\n\`\`\`"
+                  }]
+                }]
+              }
+          EOF
+          )
+
+            # Very basic response parsing - check for candidate text
+            # Robust parsing should use jq and handle errors properly
+            GENERATED_TEXT=$(echo "$API_RESPONSE" | jq -r '.candidates[0].content.parts[0].text // ""')
+
+            if [ -n "$GENERATED_TEXT" ]; then
+              GEMINI_SUMMARY="$GENERATED_TEXT"
+              echo "Gemini summary generated successfully."
+            else
+              echo "::error::Failed to generate summary or parse response from Gemini API."
+              echo "API Response: $API_RESPONSE" # Log error for debugging
+            fi
+          fi
+
+          # Output the summary for use in later steps (e.g., PR body)
+          # Use delimiter format for multiline strings
+          echo "summary<<EOF" >> $GITHUB_OUTPUT
+          echo "$GEMINI_SUMMARY" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Update CHANGELOG.md
+        if: steps.check_diff.outputs.changes_detected == 'true'
+        run: |
+          echo "Updating $CHANGELOG_PATH locally..."
+          CHANGELOG_ENTRY="## ${{ steps.set_date.outputs.date }} UTC\n\n**Summary:**\n${{ steps.generate_summary.outputs.summary }}\n\n**Details (diff):**\n<details><summary>Click to expand diff</summary>\n\n\`\`\`diff\n$(cat $DIFF_OUTPUT_PATH)\n\`\`\`\n\n</details>\n\n"
+
+          # Prepend the new entry
+          TEMP_CHANGELOG="TEMP_CHANGELOG.md"
+          echo -e "$CHANGELOG_ENTRY" > "$TEMP_CHANGELOG" # Use -e to interpret escapes like \n
+          if [ -f "$CHANGELOG_PATH" ]; then
+            cat "$CHANGELOG_PATH" >> "$TEMP_CHANGELOG"
+          fi
+          mv "$TEMP_CHANGELOG" "$CHANGELOG_PATH"
+          echo "$CHANGELOG_PATH updated locally."
+
+      - name: Set PR variables
+        id: set_pr_vars
+        if: steps.check_diff.outputs.changes_detected == 'true'
+        run: |
+          BRANCH_NAME="update-vertexai-discovery-${{ steps.set_date.outputs.date }}"
+          echo "branch_name=$BRANCH_NAME" >> $GITHUB_OUTPUT
+          echo "PR Branch name: $BRANCH_NAME"
+
+      - name: Create Pull Request # Replaces git commit/push
+        if: steps.check_diff.outputs.changes_detected == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Update firebasevertexai Discovery Document (${{ steps.set_date.outputs.date }})"
+          committer: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
+          author: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
+          branch: ${{ steps.set_pr_vars.outputs.branch_name }}
+          delete-branch: true # Optional: delete branch after PR is merged/closed
+          title: "Update firebasevertexai Discovery Document (${{ steps.set_date.outputs.date }})"
+          body: |
+            Automated update for the `firebasevertexai` Discovery Document detected on ${{ steps.set_date.outputs.date }}.
+
+            **Summary of Changes:**
+            ${{ steps.generate_summary.outputs.summary }}
+
+            Please review the changes in:
+            - `${{ env.DISCOVERY_DOC_PATH }}`
+            - `${{ env.CHANGELOG_PATH }}` (includes full diff)
+
+            This PR was generated by the [Track Discovery Doc Changes workflow](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}).
+          labels: automated, discovery-doc
+          assignees: andrewheard
+          reviewers: andrewheard
