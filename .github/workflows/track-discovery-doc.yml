@@ -16,7 +16,7 @@ env:
   TEMP_NEW_DOC: "new-discovery.json"
   TEMP_OLD_DOC: "old-discovery-formatted.json" # For formatted comparison
   TEMP_NEW_DOC_FORMATTED: "new-discovery-formatted.json" # For formatted comparison
-  DIFF_OUTPUT_PATH: "diff_output.txt"
+  DIFF_OUTPUT: "diff_output.txt"
   GEMINI_API_ENDPOINT: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
 
 jobs:
@@ -90,7 +90,7 @@ jobs:
             echo "changes_detected=true" >> $GITHUB_OUTPUT
             echo "Changes detected in the Discovery Document."
             # Generate the diff output for later steps
-            diff -u "${RUNNER_TEMP}/${TEMP_OLD_DOC}" "${RUNNER_TEMP}/${TEMP_NEW_DOC_FORMATTED}" > "$DIFF_OUTPUT_PATH" || true # Allow diff to exit with 1 if files differ
+            diff -u "${RUNNER_TEMP}/${TEMP_OLD_DOC}" "${RUNNER_TEMP}/${TEMP_NEW_DOC_FORMATTED}" > "${RUNNER_TEMP}/${DIFF_OUTPUT}" || true # Allow diff to exit with 1 if files differ
           else
             echo "changes_detected=false" >> $GITHUB_OUTPUT
             echo "No changes detected in the Discovery Document."
@@ -115,8 +115,8 @@ jobs:
           echo "Attempting to generate summary using Gemini API..."
           GEMINI_SUMMARY="Could not generate summary (Gemini API key missing, call failed, or diff too large)." # Default message
 
-          DIFF_CONTENT=$(head -c 15000 "$DIFF_OUTPUT_PATH") # Limit diff size for API
-          if [ $(wc -c < "$DIFF_OUTPUT_PATH") -gt 15000 ]; then
+          DIFF_CONTENT=$(head -c 15000 "${RUNNER_TEMP}/${DIFF_OUTPUT}") # Limit diff size for API
+          if [ $(wc -c < "${RUNNER_TEMP}/${DIFF_OUTPUT}") -gt 15000 ]; then
             echo "::warning::Diff content truncated for Gemini summary due to size limits."
             DIFF_CONTENT+=$'\n... (diff truncated)'
           fi
@@ -167,7 +167,7 @@ jobs:
         if: steps.check_diff.outputs.changes_detected == 'true'
         run: |
           echo "Updating $CHANGELOG_PATH locally..."
-          CHANGELOG_ENTRY="## ${{ steps.set_date.outputs.date }} UTC\n\n**Summary:**\n${{ steps.generate_summary.outputs.summary }}\n\n**Details (diff):**\n<details><summary>Click to expand diff</summary>\n\n\`\`\`diff\n$(cat $DIFF_OUTPUT_PATH)\n\`\`\`\n\n</details>\n\n"
+          CHANGELOG_ENTRY="## ${{ steps.set_date.outputs.date }} UTC\n\n**Summary:**\n${{ steps.generate_summary.outputs.summary }}\n\n**Details (diff):**\n<details><summary>Click to expand diff</summary>\n\n\`\`\`diff\n$(cat ${RUNNER_TEMP}/${DIFF_OUTPUT})\n\`\`\`\n\n</details>\n\n"
 
           # Prepend the new entry
           TEMP_CHANGELOG="TEMP_CHANGELOG.md"
