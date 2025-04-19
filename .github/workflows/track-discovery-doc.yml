@@ -4,6 +4,7 @@ on:
   workflow_dispatch: # Allows manual triggering
   schedule:
     - cron: '0 4 * * *' # Runs daily at 4:00 UTC
+  pull_request:
 
 permissions:
   contents: write # Needed to commit changes back to the repo
