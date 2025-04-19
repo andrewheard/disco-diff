@@ -13,9 +13,9 @@ env:
   DISCOVERY_DOC_URL: "https://firebasevertexai.googleapis.com/$discovery/rest?version=v1beta"
   DISCOVERY_DOC_PATH: "discovery_docs/firebasevertexai-v1beta-discovery.json"
   CHANGELOG_PATH: "discovery_changelogs/firebasevertexai-v1beta/CHANGELOG.md"
-  TEMP_NEW_DOC_PATH: "${RUNNER_TEMP}/new-discovery.json"
-  TEMP_OLD_DOC_PATH: "${RUNNER_TEMP}/old-discovery-formatted.json" # For formatted comparison
-  TEMP_NEW_DOC_FORMATTED_PATH: "${RUNNER_TEMP}/new-discovery-formatted.json" # For formatted comparison
+  TEMP_NEW_DOC_PATH: "${{ runner.temp }}/new-discovery.json"
+  TEMP_OLD_DOC_PATH: "${{ runner.temp }}/old-discovery-formatted.json" # For formatted comparison
+  TEMP_NEW_DOC_FORMATTED_PATH: "${{ runner.temp }}/new-discovery-formatted.json" # For formatted comparison
   DIFF_OUTPUT_PATH: "diff_output.txt"
   GEMINI_API_ENDPOINT: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
 
