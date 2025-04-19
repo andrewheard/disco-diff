@@ -26,6 +26,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
+          ref: main
           # Fetch all history so the date diff script works correctly later
           fetch-depth: 0
 
