@@ -1,4 +1,4 @@
-name: Track Vertex AI in Firebase Discovery Document Changes
+name: Track Discovery Document Changes
 
 on:
   workflow_dispatch: # Allows manual triggering
