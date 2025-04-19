@@ -13,9 +13,9 @@ env:
   DISCOVERY_DOC_URL: "https://firebasevertexai.googleapis.com/$discovery/rest?version=v1beta"
   DISCOVERY_DOC_PATH: "discovery_docs/firebasevertexai-v1beta-discovery.json"
   CHANGELOG_PATH: "discovery_changelogs/firebasevertexai-v1beta/CHANGELOG.md"
-  TEMP_NEW_DOC_PATH: "${{ runner.temp }}/new-discovery.json"
-  TEMP_OLD_DOC_PATH: "${{ runner.temp }}/old-discovery-formatted.json" # For formatted comparison
-  TEMP_NEW_DOC_FORMATTED_PATH: "${{ runner.temp }}/new-discovery-formatted.json" # For formatted comparison
+  TEMP_NEW_DOC: "new-discovery.json"
+  TEMP_OLD_DOC: "old-discovery-formatted.json" # For formatted comparison
+  TEMP_NEW_DOC_FORMATTED: "new-discovery-formatted.json" # For formatted comparison
   DIFF_OUTPUT_PATH: "diff_output.txt"
   GEMINI_API_ENDPOINT: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
 
@@ -40,7 +40,7 @@ jobs:
       - name: Download latest Discovery Document
         run: |
           echo "Downloading latest document from $DISCOVERY_DOC_URL"
-          curl -s -f -L "$DISCOVERY_DOC_URL" -o "$TEMP_NEW_DOC_PATH"
+          curl -s -f -L "$DISCOVERY_DOC_URL" -o "${RUNNER_TEMP}/${TEMP_NEW_DOC}"
           if [ $? -ne 0 ]; then
             echo "::error::Failed to download Discovery Document."
             exit 1
@@ -59,30 +59,30 @@ jobs:
       - name: Format JSON files for consistent diffing
         run: |
           # Format new doc
-          if ! jq '.' "$TEMP_NEW_DOC_PATH" > "$TEMP_NEW_DOC_FORMATTED_PATH"; then
+          if ! jq '.' "${RUNNER_TEMP}/${TEMP_NEW_DOC}" > "${RUNNER_TEMP}/${TEMP_NEW_DOC_FORMATTED}"; then
              echo "::warning::Downloaded document is not valid JSON. Proceeding with text diff."
-             cp "$TEMP_NEW_DOC_PATH" "$TEMP_NEW_DOC_FORMATTED_PATH"
+             cp "${RUNNER_TEMP}/${TEMP_NEW_DOC}" "${RUNNER_TEMP}/${TEMP_NEW_DOC_FORMATTED}"
           fi
 
           # Format existing doc if it exists
           if [ "${{ steps.check_existing.outputs.existing_doc_found }}" == "true" ]; then
-            if ! jq '.' "$DISCOVERY_DOC_PATH" > "$TEMP_OLD_DOC_PATH"; then
+            if ! jq '.' "$DISCOVERY_DOC_PATH" > "${RUNNER_TEMP}/${TEMP_OLD_DOC}"; then
               echo "::warning::Existing document is not valid JSON. Proceeding with text diff."
-              cp "$DISCOVERY_DOC_PATH" "$TEMP_OLD_DOC_PATH"
+              cp "$DISCOVERY_DOC_PATH" "${RUNNER_TEMP}/${TEMP_OLD_DOC}"
             fi
           else
              # Create an empty file to diff against if no existing doc
-             touch "$TEMP_OLD_DOC_PATH"
+             touch "${RUNNER_TEMP}/${TEMP_OLD_DOC}"
           fi
 
       - name: Check for differences
         id: check_diff
         run: |
-          if ! diff -q "$TEMP_OLD_DOC_PATH" "$TEMP_NEW_DOC_FORMATTED_PATH" > /dev/null; then
+          if ! diff -q "${RUNNER_TEMP}/${TEMP_OLD_DOC}" "${RUNNER_TEMP}/${TEMP_NEW_DOC_FORMATTED}" > /dev/null; then
             echo "changes_detected=true" >> $GITHUB_OUTPUT
             echo "Changes detected in the Discovery Document."
             # Generate the diff output for later steps
-            diff -u "$TEMP_OLD_DOC_PATH" "$TEMP_NEW_DOC_FORMATTED_PATH" > "$DIFF_OUTPUT_PATH" || true # Allow diff to exit with 1 if files differ
+            diff -u "${RUNNER_TEMP}/${TEMP_OLD_DOC}" "${RUNNER_TEMP}/${TEMP_NEW_DOC_FORMATTED}" > "$DIFF_OUTPUT_PATH" || true # Allow diff to exit with 1 if files differ
           else
             echo "changes_detected=false" >> $GITHUB_OUTPUT
             echo "No changes detected in the Discovery Document."
@@ -96,7 +96,7 @@ jobs:
           echo "Processing detected changes..."
 
           # 1. Overwrite the old file with the new formatted version
-          mv "$TEMP_NEW_DOC_FORMATTED_PATH" "$DISCOVERY_DOC_PATH"
+          mv "${RUNNER_TEMP}/${TEMP_NEW_DOC_FORMATTED}" "$DISCOVERY_DOC_PATH"
           echo "Updated $DISCOVERY_DOC_PATH"
 
           # 2. Prepare diff for Gemini (limit size if necessary)
@@ -164,5 +164,5 @@ jobs:
       - name: Clean up temporary files
         if: always() # Run even if previous steps fail
         run: |
-           rm -f "$TEMP_NEW_DOC_PATH" "$TEMP_OLD_DOC_PATH" "$TEMP_NEW_DOC_FORMATTED_PATH" "$DIFF_OUTPUT_PATH" "TEMP_CHANGELOG.md"
+           rm -f "${RUNNER_TEMP}/${TEMP_NEW_DOC}" "${RUNNER_TEMP}/${TEMP_OLD_DOC}" "${RUNNER_TEMP}/${TEMP_NEW_DOC_FORMATTED}" "$DIFF_OUTPUT_PATH" "TEMP_CHANGELOG.md"
            echo "Temporary files cleaned up."
