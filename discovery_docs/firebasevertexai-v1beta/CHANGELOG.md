@@ -1,3 +1,100 @@
+## 2025-04-30 UTC
+
+**Summary:**
+There is no diff provided. Therefore, there are no changes to summarize.
+
+**Details (diff):**
+<details><summary>Click to expand diff</summary>
+
+```diff
+--- /home/runner/work/_temp/old-discovery-formatted.json	2025-04-30 04:10:35.894005990 +0000
++++ /home/runner/work/_temp/new-discovery-formatted.json	2025-04-30 04:10:35.888006024 +0000
+@@ -234,7 +234,7 @@
+       }
+     }
+   },
+-  "revision": "20250416",
++  "revision": "20250429",
+   "rootUrl": "https://firebasevertexai.googleapis.com/",
+   "schemas": {
+     "Date": {
+@@ -1797,6 +1797,10 @@
+       "description": "Schema is used to define the format of input/output data. Represents a select subset of an [OpenAPI 3.0 schema object](https://spec.openapis.org/oas/v3.0.3#schema-object). More fields may be added in the future as needed.",
+       "id": "GoogleCloudAiplatformV1beta1Schema",
+       "properties": {
++        "additionalProperties": {
++          "description": "Optional. Can either be a boolean or an object; controls the presence of additional properties.",
++          "type": "any"
++        },
+         "anyOf": {
+           "description": "Optional. The value should be validated against any (one or more) of the subschemas in the list.",
+           "items": {
+@@ -1808,6 +1812,13 @@
+           "description": "Optional. Default value of the data.",
+           "type": "any"
+         },
++        "defs": {
++          "additionalProperties": {
++            "$ref": "GoogleCloudAiplatformV1beta1Schema"
++          },
++          "description": "Optional. A map of definitions for use by `ref` Only allowed at the root of the schema.",
++          "type": "object"
++        },
+         "description": {
+           "description": "Optional. The description of the data.",
+           "type": "string"
+@@ -1893,6 +1904,10 @@
+           },
+           "type": "array"
+         },
++        "ref": {
++          "description": "Optional. Allows indirect references between schema nodes. The value should be a valid reference to a child of the root `defs`. For example, the following schema defines a reference to a schema node named \"Pet\": type: object properties: pet: ref: #/defs/Pet defs: Pet: type: object properties: name: type: string The value of the \"pet\" property is a reference to the schema node named \"Pet\". See details in https://json-schema.org/understanding-json-schema/structuring",
++          "type": "string"
++        },
+         "required": {
+           "description": "Optional. Required properties of Type.OBJECT.",
+           "items": {
+@@ -1913,7 +1928,8 @@
+             "INTEGER",
+             "BOOLEAN",
+             "ARRAY",
+-            "OBJECT"
++            "OBJECT",
++            "NULL"
+           ],
+           "enumDescriptions": [
+             "Not specified, should not be used.",
+@@ -1922,7 +1938,8 @@
+             "OpenAPI integer type",
+             "OpenAPI boolean type",
+             "OpenAPI array type",
+-            "OpenAPI object type"
++            "OpenAPI object type",
++            "Null type"
+           ],
+           "type": "string"
+         }
+@@ -2062,6 +2079,15 @@
+         "engine": {
+           "description": "Optional. Fully-qualified Vertex AI Search engine resource ID. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}`",
+           "type": "string"
++        },
++        "filter": {
++          "description": "Optional. Filter strings to be passed to the search API.",
++          "type": "string"
++        },
++        "maxResults": {
++          "description": "Optional. Number of search results to return per query. The default value is 10. The maximumm allowed value is 10.",
++          "format": "int32",
++          "type": "integer"
+         }
+       },
+       "type": "object"
+```
+
+</details>
+
+
 ## 2025-04-19 UTC
 
 **Summary:**
