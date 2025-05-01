@@ -234,7 +234,7 @@
       }
     }
   },
-  "revision": "20250429",
+  "revision": "20250430",
   "rootUrl": "https://firebasevertexai.googleapis.com/",
   "schemas": {
     "Date": {
