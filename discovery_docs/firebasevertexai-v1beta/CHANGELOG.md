@@ -1,14 +1,11 @@
-## 2025-04-27 UTC
-
-**Summary:**
-There's no diff provided. Therefore, there are no changes to summarize.
+## 2025-04-23 UTC
 
 **Details (diff):**
 <details><summary>Click to expand diff</summary>
 
 ```diff
---- /home/runner/work/_temp/old-discovery-formatted.json	2025-04-27 04:10:04.068604413 +0000
-+++ /home/runner/work/_temp/new-discovery-formatted.json	2025-04-27 04:10:04.063604382 +0000
+--- /home/runner/work/_temp/old-discovery-formatted.json	2025-04-23 04:11:00.959307726 +0000
++++ /home/runner/work/_temp/new-discovery-formatted.json	2025-04-23 04:11:00.953307648 +0000
 @@ -234,7 +234,7 @@
        }
      }
@@ -69,9 +66,6 @@ There's no diff provided. Therefore, there are no changes to summarize.
 
 
 ## 2025-04-19 UTC
-
-**Summary:**
-Since the diff is empty (), there are **no changes** to report.
 
 **Details (diff):**
 <details><summary>Click to expand diff</summary>
