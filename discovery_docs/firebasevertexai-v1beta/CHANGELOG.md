@@ -1,35 +1,21 @@
-## 2025-05-01 UTC
-
-**Summary:**
-The diff is empty. Therefore, there are **no changes** to summarize.
+## 2025-04-23 UTC
 
 **Details (diff):**
 <details><summary>Click to expand diff</summary>
 
 ```diff
---- /home/runner/work/_temp/old-discovery-formatted.json	2025-05-01 04:14:29.064107927 +0000
-+++ /home/runner/work/_temp/new-discovery-formatted.json	2025-05-01 04:14:29.059107858 +0000
+--- /home/runner/work/_temp/old-discovery-formatted.json	2025-04-23 04:11:00.959307726 +0000
++++ /home/runner/work/_temp/new-discovery-formatted.json	2025-04-23 04:11:00.953307648 +0000
 @@ -234,7 +234,7 @@
        }
      }
    },
 -  "revision": "20250416",
-+  "revision": "20250430",
++  "revision": "20250421",
    "rootUrl": "https://firebasevertexai.googleapis.com/",
    "schemas": {
      "Date": {
-@@ -1797,6 +1797,10 @@
-       "description": "Schema is used to define the format of input/output data. Represents a select subset of an [OpenAPI 3.0 schema object](https://spec.openapis.org/oas/v3.0.3#schema-object). More fields may be added in the future as needed.",
-       "id": "GoogleCloudAiplatformV1beta1Schema",
-       "properties": {
-+        "additionalProperties": {
-+          "description": "Optional. Can either be a boolean or an object; controls the presence of additional properties.",
-+          "type": "any"
-+        },
-         "anyOf": {
-           "description": "Optional. The value should be validated against any (one or more) of the subschemas in the list.",
-           "items": {
-@@ -1808,6 +1812,13 @@
+@@ -1808,6 +1808,13 @@
            "description": "Optional. Default value of the data.",
            "type": "any"
          },
@@ -43,7 +29,7 @@ The diff is empty. Therefore, there are **no changes** to summarize.
          "description": {
            "description": "Optional. The description of the data.",
            "type": "string"
-@@ -1893,6 +1904,10 @@
+@@ -1893,6 +1900,10 @@
            },
            "type": "array"
          },
@@ -54,7 +40,7 @@ The diff is empty. Therefore, there are **no changes** to summarize.
          "required": {
            "description": "Optional. Required properties of Type.OBJECT.",
            "items": {
-@@ -1913,7 +1928,8 @@
+@@ -1913,7 +1924,8 @@
              "INTEGER",
              "BOOLEAN",
              "ARRAY",
@@ -64,7 +50,7 @@ The diff is empty. Therefore, there are **no changes** to summarize.
            ],
            "enumDescriptions": [
              "Not specified, should not be used.",
-@@ -1922,7 +1938,8 @@
+@@ -1922,7 +1934,8 @@
              "OpenAPI integer type",
              "OpenAPI boolean type",
              "OpenAPI array type",
@@ -74,31 +60,12 @@ The diff is empty. Therefore, there are **no changes** to summarize.
            ],
            "type": "string"
          }
-@@ -2062,6 +2079,15 @@
-         "engine": {
-           "description": "Optional. Fully-qualified Vertex AI Search engine resource ID. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}`",
-           "type": "string"
-+        },
-+        "filter": {
-+          "description": "Optional. Filter strings to be passed to the search API.",
-+          "type": "string"
-+        },
-+        "maxResults": {
-+          "description": "Optional. Number of search results to return per query. The default value is 10. The maximumm allowed value is 10.",
-+          "format": "int32",
-+          "type": "integer"
-         }
-       },
-       "type": "object"
 ```
 
 </details>
 
 
 ## 2025-04-19 UTC
-
-**Summary:**
-Since the diff is empty (), there are **no changes** to report.
 
 **Details (diff):**
 <details><summary>Click to expand diff</summary>
