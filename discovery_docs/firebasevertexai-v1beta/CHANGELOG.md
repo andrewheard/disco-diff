@@ -1,3 +1,39 @@
+## 2025-05-10 UTC
+
+**Summary:**
+There is no diff provided. Therefore, there are no key changes to summarize.
+
+**Details (diff):**
+<details><summary>Click to expand diff</summary>
+
+```diff
+--- /home/runner/work/_temp/old-discovery-formatted.json	2025-05-10 04:09:45.560931341 +0000
++++ /home/runner/work/_temp/new-discovery-formatted.json	2025-05-10 04:09:45.555931392 +0000
+@@ -234,7 +234,7 @@
+       }
+     }
+   },
+-  "revision": "20250430",
++  "revision": "20250502",
+   "rootUrl": "https://firebasevertexai.googleapis.com/",
+   "schemas": {
+     "Date": {
+@@ -1114,6 +1114,10 @@
+       "description": "Config for thinking features.",
+       "id": "GoogleCloudAiplatformV1beta1GenerationConfigThinkingConfig",
+       "properties": {
++        "includeThoughts": {
++          "description": "Optional. Indicates whether to include thoughts in the response. If true, thoughts are returned only when available.",
++          "type": "boolean"
++        },
+         "thinkingBudget": {
+           "description": "Optional. Indicates the thinking budget in tokens. This is only applied when enable_thinking is true.",
+           "format": "int32",
+```
+
+</details>
+
+
 ## 2025-04-23 UTC
 
 **Details (diff):**
