@@ -1,3 +1,307 @@
+## 2025-05-12 UTC
+
+**Summary:**
+There were no changes in the provided diff.
+
+**Details (diff):**
+<details><summary>Click to expand diff</summary>
+
+```diff
+--- /home/runner/work/_temp/old-discovery-formatted.json	2025-05-12 04:13:15.572444665 +0000
++++ /home/runner/work/_temp/new-discovery-formatted.json	2025-05-12 04:13:15.567444648 +0000
+@@ -234,7 +234,7 @@
+       }
+     }
+   },
+-  "revision": "20250430",
++  "revision": "20250509",
+   "rootUrl": "https://firebasevertexai.googleapis.com/",
+   "schemas": {
+     "Date": {
+@@ -259,6 +259,172 @@
+       },
+       "type": "object"
+     },
++    "GoogleCloudAiplatformV1beta1ApiAuth": {
++      "description": "The generic reusable api auth config. Deprecated. Please use AuthConfig (google/cloud/aiplatform/master/auth.proto) instead.",
++      "id": "GoogleCloudAiplatformV1beta1ApiAuth",
++      "properties": {
++        "apiKeyConfig": {
++          "$ref": "GoogleCloudAiplatformV1beta1ApiAuthApiKeyConfig",
++          "description": "The API secret."
++        }
++      },
++      "type": "object"
++    },
++    "GoogleCloudAiplatformV1beta1ApiAuthApiKeyConfig": {
++      "description": "The API secret.",
++      "id": "GoogleCloudAiplatformV1beta1ApiAuthApiKeyConfig",
++      "properties": {
++        "apiKeySecretVersion": {
++          "description": "Required. The SecretManager secret version resource name storing API key. e.g. projects/{project}/secrets/{secret}/versions/{version}",
++          "type": "string"
++        },
++        "apiKeyString": {
++          "description": "The API key string. Either this or `api_key_secret_version` must be set.",
++          "type": "string"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleCloudAiplatformV1beta1AuthConfig": {
++      "description": "Auth configuration to run the extension.",
++      "id": "GoogleCloudAiplatformV1beta1AuthConfig",
++      "properties": {
++        "apiKeyConfig": {
++          "$ref": "GoogleCloudAiplatformV1beta1AuthConfigApiKeyConfig",
++          "description": "Config for API key auth."
++        },
++        "authType": {
++          "description": "Type of auth scheme.",
++          "enum": [
++            "AUTH_TYPE_UNSPECIFIED",
++            "NO_AUTH",
++            "API_KEY_AUTH",
++            "HTTP_BASIC_AUTH",
++            "GOOGLE_SERVICE_ACCOUNT_AUTH",
++            "OAUTH",
++            "OIDC_AUTH"
++          ],
++          "enumDescriptions": [
++            "",
++            "No Auth.",
++            "API Key Auth.",
++            "HTTP Basic Auth.",
++            "Google Service Account Auth.",
++            "OAuth auth.",
++            "OpenID Connect (OIDC) Auth."
++          ],
++          "type": "string"
++        },
++        "googleServiceAccountConfig": {
++          "$ref": "GoogleCloudAiplatformV1beta1AuthConfigGoogleServiceAccountConfig",
++          "description": "Config for Google Service Account auth."
++        },
++        "httpBasicAuthConfig": {
++          "$ref": "GoogleCloudAiplatformV1beta1AuthConfigHttpBasicAuthConfig",
++          "description": "Config for HTTP Basic auth."
++        },
++        "oauthConfig": {
++          "$ref": "GoogleCloudAiplatformV1beta1AuthConfigOauthConfig",
++          "description": "Config for user oauth."
++        },
++        "oidcConfig": {
++          "$ref": "GoogleCloudAiplatformV1beta1AuthConfigOidcConfig",
++          "description": "Config for user OIDC auth."
++        }
++      },
++      "type": "object"
++    },
++    "GoogleCloudAiplatformV1beta1AuthConfigApiKeyConfig": {
++      "description": "Config for authentication with API key.",
++      "id": "GoogleCloudAiplatformV1beta1AuthConfigApiKeyConfig",
++      "properties": {
++        "apiKeySecret": {
++          "description": "Optional. The name of the SecretManager secret version resource storing the API key. Format: `projects/{project}/secrets/{secrete}/versions/{version}` - If both `api_key_secret` and `api_key_string` are specified, this field takes precedence over `api_key_string`. - If specified, the `secretmanager.versions.access` permission should be granted to Vertex AI Extension Service Agent (https://cloud.google.com/vertex-ai/docs/general/access-control#service-agents) on the specified resource.",
++          "type": "string"
++        },
++        "apiKeyString": {
++          "description": "Optional. The API key to be used in the request directly.",
++          "type": "string"
++        },
++        "httpElementLocation": {
++          "description": "Optional. The location of the API key.",
++          "enum": [
++            "HTTP_IN_UNSPECIFIED",
++            "HTTP_IN_QUERY",
++            "HTTP_IN_HEADER",
++            "HTTP_IN_PATH",
++            "HTTP_IN_BODY",
++            "HTTP_IN_COOKIE"
++          ],
++          "enumDescriptions": [
++            "",
++            "Element is in the HTTP request query.",
++            "Element is in the HTTP request header.",
++            "Element is in the HTTP request path.",
++            "Element is in the HTTP request body.",
++            "Element is in the HTTP request cookie."
++          ],
++          "type": "string"
++        },
++        "name": {
++          "description": "Optional. The parameter name of the API key. E.g. If the API request is \"https://example.com/act?api_key=\", \"api_key\" would be the parameter name.",
++          "type": "string"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleCloudAiplatformV1beta1AuthConfigGoogleServiceAccountConfig": {
++      "description": "Config for Google Service Account Authentication.",
++      "id": "GoogleCloudAiplatformV1beta1AuthConfigGoogleServiceAccountConfig",
++      "properties": {
++        "serviceAccount": {
++          "description": "Optional. The service account that the extension execution service runs as. - If the service account is specified, the `iam.serviceAccounts.getAccessToken` permission should be granted to Vertex AI Extension Service Agent (https://cloud.google.com/vertex-ai/docs/general/access-control#service-agents) on the specified service account. - If not specified, the Vertex AI Extension Service Agent will be used to execute the Extension.",
++          "type": "string"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleCloudAiplatformV1beta1AuthConfigHttpBasicAuthConfig": {
++      "description": "Config for HTTP Basic Authentication.",
++      "id": "GoogleCloudAiplatformV1beta1AuthConfigHttpBasicAuthConfig",
++      "properties": {
++        "credentialSecret": {
++          "description": "Required. The name of the SecretManager secret version resource storing the base64 encoded credentials. Format: `projects/{project}/secrets/{secrete}/versions/{version}` - If specified, the `secretmanager.versions.access` permission should be granted to Vertex AI Extension Service Agent (https://cloud.google.com/vertex-ai/docs/general/access-control#service-agents) on the specified resource.",
++          "type": "string"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleCloudAiplatformV1beta1AuthConfigOauthConfig": {
++      "description": "Config for user oauth.",
++      "id": "GoogleCloudAiplatformV1beta1AuthConfigOauthConfig",
++      "properties": {
++        "accessToken": {
++          "description": "Access token for extension endpoint. Only used to propagate token from [[ExecuteExtensionRequest.runtime_auth_config]] at request time.",
++          "type": "string"
++        },
++        "serviceAccount": {
++          "description": "The service account used to generate access tokens for executing the Extension. - If the service account is specified, the `iam.serviceAccounts.getAccessToken` permission should be granted to Vertex AI Extension Service Agent (https://cloud.google.com/vertex-ai/docs/general/access-control#service-agents) on the provided service account.",
++          "type": "string"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleCloudAiplatformV1beta1AuthConfigOidcConfig": {
++      "description": "Config for user OIDC auth.",
++      "id": "GoogleCloudAiplatformV1beta1AuthConfigOidcConfig",
++      "properties": {
++        "idToken": {
++          "description": "OpenID Connect formatted ID token for extension endpoint. Only used to propagate token from [[ExecuteExtensionRequest.runtime_auth_config]] at request time.",
++          "type": "string"
++        },
++        "serviceAccount": {
++          "description": "The service account used to generate an OpenID Connect (OIDC)-compatible JWT token signed by the Google OIDC Provider (accounts.google.com) for extension endpoint (https://cloud.google.com/iam/docs/create-short-lived-credentials-direct#sa-credentials-oidc). - The audience for the token will be set to the URL in the server url defined in the OpenApi spec. - If the service account is provided, the service account should grant `iam.serviceAccounts.getOpenIdToken` permission to Vertex AI Extension Service Agent (https://cloud.google.com/vertex-ai/docs/general/access-control#service-agents).",
++          "type": "string"
++        }
++      },
++      "type": "object"
++    },
+     "GoogleCloudAiplatformV1beta1Blob": {
+       "description": "Content blob.",
+       "id": "GoogleCloudAiplatformV1beta1Blob",
+@@ -577,6 +743,74 @@
+       },
+       "type": "object"
+     },
++    "GoogleCloudAiplatformV1beta1ExternalApi": {
++      "description": "Retrieve from data source powered by external API for grounding. The external API is not owned by Google, but need to follow the pre-defined API spec.",
++      "id": "GoogleCloudAiplatformV1beta1ExternalApi",
++      "properties": {
++        "apiAuth": {
++          "$ref": "GoogleCloudAiplatformV1beta1ApiAuth",
++          "deprecated": true,
++          "description": "The authentication config to access the API. Deprecated. Please use auth_config instead."
++        },
++        "apiSpec": {
++          "description": "The API spec that the external API implements.",
++          "enum": [
++            "API_SPEC_UNSPECIFIED",
++            "SIMPLE_SEARCH",
++            "ELASTIC_SEARCH"
++          ],
++          "enumDescriptions": [
++            "Unspecified API spec. This value should not be used.",
++            "Simple search API spec.",
++            "Elastic search API spec."
++          ],
++          "type": "string"
++        },
++        "authConfig": {
++          "$ref": "GoogleCloudAiplatformV1beta1AuthConfig",
++          "description": "The authentication config to access the API."
++        },
++        "elasticSearchParams": {
++          "$ref": "GoogleCloudAiplatformV1beta1ExternalApiElasticSearchParams",
++          "description": "Parameters for the elastic search API."
++        },
++        "endpoint": {
++          "description": "The endpoint of the external API. The system will call the API at this endpoint to retrieve the data for grounding. Example: https://acme.com:443/search",
++          "type": "string"
++        },
++        "simpleSearchParams": {
++          "$ref": "GoogleCloudAiplatformV1beta1ExternalApiSimpleSearchParams",
++          "description": "Parameters for the simple search API."
++        }
++      },
++      "type": "object"
++    },
++    "GoogleCloudAiplatformV1beta1ExternalApiElasticSearchParams": {
++      "description": "The search parameters to use for the ELASTIC_SEARCH spec.",
++      "id": "GoogleCloudAiplatformV1beta1ExternalApiElasticSearchParams",
++      "properties": {
++        "index": {
++          "description": "The ElasticSearch index to use.",
++          "type": "string"
++        },
++        "numHits": {
++          "description": "Optional. Number of hits (chunks) to request. When specified, it is passed to Elasticsearch as the `num_hits` param.",
++          "format": "int32",
++          "type": "integer"
++        },
++        "searchTemplate": {
++          "description": "The ElasticSearch search template to use.",
++          "type": "string"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleCloudAiplatformV1beta1ExternalApiSimpleSearchParams": {
++      "description": "The search parameters to use for SIMPLE_SEARCH spec.",
++      "id": "GoogleCloudAiplatformV1beta1ExternalApiSimpleSearchParams",
++      "properties": {},
++      "type": "object"
++    },
+     "GoogleCloudAiplatformV1beta1FileData": {
+       "description": "URI based data.",
+       "id": "GoogleCloudAiplatformV1beta1FileData",
+@@ -1114,6 +1348,10 @@
+       "description": "Config for thinking features.",
+       "id": "GoogleCloudAiplatformV1beta1GenerationConfigThinkingConfig",
+       "properties": {
++        "includeThoughts": {
++          "description": "Optional. Indicates whether to include thoughts in the response. If true, thoughts are returned only when available.",
++          "type": "boolean"
++        },
+         "thinkingBudget": {
+           "description": "Optional. Indicates the thinking budget in tokens. This is only applied when enable_thinking is true.",
+           "format": "int32",
+@@ -1595,6 +1833,10 @@
+           "description": "Optional. Deprecated. This option is no longer supported.",
+           "type": "boolean"
+         },
++        "externalApi": {
++          "$ref": "GoogleCloudAiplatformV1beta1ExternalApi",
++          "description": "Use data source powered by external API for grounding."
++        },
+         "vertexAiSearch": {
+           "$ref": "GoogleCloudAiplatformV1beta1VertexAISearch",
+           "description": "Set to use data source powered by Vertex AI Search."
+@@ -2195,7 +2437,7 @@
+     }
+   },
+   "servicePath": "",
+-  "title": "Vertex AI in Firebase API",
++  "title": "Firebase AI Logic API",
+   "version": "v1beta",
+   "version_module": true
+ }
+```
+
+</details>
+
+
 ## 2025-04-23 UTC
 
 **Details (diff):**
