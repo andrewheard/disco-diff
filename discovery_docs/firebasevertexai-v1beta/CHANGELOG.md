@@ -1,3 +1,2076 @@
+## 2025-05-23 UTC
+
+**Summary:**
+There is no diff provided. Therefore, there are no changes to summarize.
+
+**Details (diff):**
+<details><summary>Click to expand diff</summary>
+
+```diff
+--- /home/runner/work/_temp/old-discovery-formatted.json	2025-05-23 04:11:52.279027627 +0000
++++ /home/runner/work/_temp/new-discovery-formatted.json	2025-05-23 04:11:52.274027615 +0000
+@@ -108,6 +108,67 @@
+     "projects": {
+       "resources": {
+         "locations": {
++          "methods": {
++            "getConfig": {
++              "description": "Fetches the current configuration for the given project. Currently the only supported location is \"global\".",
++              "flatPath": "v1beta/projects/{projectsId}/locations/{locationsId}/config",
++              "httpMethod": "GET",
++              "id": "firebasevertexai.projects.locations.getConfig",
++              "parameterOrder": [
++                "name"
++              ],
++              "parameters": {
++                "name": {
++                  "description": "Required. The resource name of the config. Format: projects/{project}/locations/{location}/config",
++                  "location": "path",
++                  "pattern": "^projects/[^/]+/locations/[^/]+/config$",
++                  "required": true,
++                  "type": "string"
++                }
++              },
++              "path": "v1beta/{+name}",
++              "response": {
++                "$ref": "Config"
++              },
++              "scopes": [
++                "https://www.googleapis.com/auth/cloud-platform"
++              ]
++            },
++            "updateConfig": {
++              "description": "Updates the current proxy configuration for the given project. Currently the only supported location is \"global\".",
++              "flatPath": "v1beta/projects/{projectsId}/locations/{locationsId}/config",
++              "httpMethod": "PATCH",
++              "id": "firebasevertexai.projects.locations.updateConfig",
++              "parameterOrder": [
++                "name"
++              ],
++              "parameters": {
++                "name": {
++                  "description": "Identifier. The resource name of the config. Format: projects/{project}/locations/{location}/config",
++                  "location": "path",
++                  "pattern": "^projects/[^/]+/locations/[^/]+/config$",
++                  "required": true,
++                  "type": "string"
++                },
++                "updateMask": {
++                  "description": "Optional. A comma-separated list of names of fields in the DebugToken to update. Example: `telemetry_config.mode`.",
++                  "format": "google-fieldmask",
++                  "location": "query",
++                  "type": "string"
++                }
++              },
++              "path": "v1beta/{+name}",
++              "request": {
++                "$ref": "Config"
++              },
++              "response": {
++                "$ref": "Config"
++              },
++              "scopes": [
++                "https://www.googleapis.com/auth/cloud-platform"
++              ]
++            }
++          },
+           "resources": {
+             "publishers": {
+               "resources": {
+@@ -230,13 +291,148 @@
+               }
+             }
+           }
++        },
++        "models": {
++          "methods": {
++            "countTokens": {
++              "description": "Perform a token counting.",
++              "flatPath": "v1beta/projects/{projectsId}/models/{modelsId}:countTokens",
++              "httpMethod": "POST",
++              "id": "firebasevertexai.projects.models.countTokens",
++              "parameterOrder": [
++                "model"
++              ],
++              "parameters": {
++                "model": {
++                  "description": "Required. The model's resource name. This serves as an ID for the Model to use. This name should match a model name returned by the `ListModels` method. Format: `models/{model}`",
++                  "location": "path",
++                  "pattern": "^projects/[^/]+/models/[^/]+$",
++                  "required": true,
++                  "type": "string"
++                }
++              },
++              "path": "v1beta/{+model}:countTokens",
++              "request": {
++                "$ref": "GoogleAiGenerativelanguageV1betaCountTokensRequest"
++              },
++              "response": {
++                "$ref": "GoogleAiGenerativelanguageV1betaCountTokensResponse"
++              },
++              "scopes": [
++                "https://www.googleapis.com/auth/cloud-platform"
++              ]
++            },
++            "generateContent": {
++              "description": "Generate content with multimodal inputs.",
++              "flatPath": "v1beta/projects/{projectsId}/models/{modelsId}:generateContent",
++              "httpMethod": "POST",
++              "id": "firebasevertexai.projects.models.generateContent",
++              "parameterOrder": [
++                "model"
++              ],
++              "parameters": {
++                "model": {
++                  "description": "Required. The name of the `Model` to use for generating the completion. Format: `models/{model}`.",
++                  "location": "path",
++                  "pattern": "^projects/[^/]+/models/[^/]+$",
++                  "required": true,
++                  "type": "string"
++                }
++              },
++              "path": "v1beta/{+model}:generateContent",
++              "request": {
++                "$ref": "GoogleAiGenerativelanguageV1betaGenerateContentRequest"
++              },
++              "response": {
++                "$ref": "GoogleAiGenerativelanguageV1betaGenerateContentResponse"
++              },
++              "scopes": [
++                "https://www.googleapis.com/auth/cloud-platform"
++              ]
++            },
++            "predict": {
++              "description": "Perform an online prediction.",
++              "flatPath": "v1beta/projects/{projectsId}/models/{modelsId}:predict",
++              "httpMethod": "POST",
++              "id": "firebasevertexai.projects.models.predict",
++              "parameterOrder": [
++                "model"
++              ],
++              "parameters": {
++                "model": {
++                  "description": "Required. The name of the model for prediction. Format: `name=models/{model}`.",
++                  "location": "path",
++                  "pattern": "^projects/[^/]+/models/[^/]+$",
++                  "required": true,
++                  "type": "string"
++                }
++              },
++              "path": "v1beta/{+model}:predict",
++              "request": {
++                "$ref": "GoogleAiGenerativelanguageV1betaPredictRequest"
++              },
++              "response": {
++                "$ref": "GoogleAiGenerativelanguageV1betaPredictResponse"
++              },
++              "scopes": [
++                "https://www.googleapis.com/auth/cloud-platform"
++              ]
++            },
++            "streamGenerateContent": {
++              "description": "Generate content with multimodal inputs with streaming support.",
++              "flatPath": "v1beta/projects/{projectsId}/models/{modelsId}:streamGenerateContent",
++              "httpMethod": "POST",
++              "id": "firebasevertexai.projects.models.streamGenerateContent",
++              "parameterOrder": [
++                "model"
++              ],
++              "parameters": {
++                "model": {
++                  "description": "Required. The name of the `Model` to use for generating the completion. Format: `models/{model}`.",
++                  "location": "path",
++                  "pattern": "^projects/[^/]+/models/[^/]+$",
++                  "required": true,
++                  "type": "string"
++                }
++              },
++              "path": "v1beta/{+model}:streamGenerateContent",
++              "request": {
++                "$ref": "GoogleAiGenerativelanguageV1betaGenerateContentRequest"
++              },
++              "response": {
++                "$ref": "GoogleAiGenerativelanguageV1betaGenerateContentResponse"
++              },
++              "scopes": [
++                "https://www.googleapis.com/auth/cloud-platform"
++              ]
++            }
++          }
+         }
+       }
+     }
+   },
+-  "revision": "20250430",
++  "revision": "20250521",
+   "rootUrl": "https://firebasevertexai.googleapis.com/",
+   "schemas": {
++    "Config": {
++      "description": "Configuration for the Firbase AI Proxy.",
++      "id": "Config",
++      "properties": {
++        "generativeLanguageConfig": {
++          "$ref": "GenerativeLanguageConfig",
++          "description": "Optional. Security configuration for Generative Language API to allow the proxy to access the upstream API."
++        },
++        "name": {
++          "description": "Identifier. The resource name of the config. Format: projects/{project}/locations/{location}/config",
++          "type": "string"
++        },
++        "telemetryConfig": {
++          "$ref": "TelemetryConfig",
++          "description": "Optional. Service Configuration for Telemetry and Tracing, to allow monitoring the use of models referenced through the proxy."
++        }
++      },
++      "type": "object"
++    },
+     "Date": {
+       "description": "Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp",
+       "id": "Date",
+@@ -259,6 +455,1667 @@
+       },
+       "type": "object"
+     },
++    "GenerativeLanguageConfig": {
++      "description": "Security configuration for Generative Language API to allow the proxy to access the upstream API.",
++      "id": "GenerativeLanguageConfig",
++      "properties": {
++        "apiKey": {
++          "description": "Input only. The value of the API key. The API key must have generativelanguage.googleapis.com in its \"API restrictions\" allowlist.",
++          "type": "string"
++        },
++        "obfuscatedApiKey": {
++          "description": "Output only. The obfuscated value of the API key, showing only the last few characters of the API key to unique identify it within the project.",
++          "readOnly": true,
++          "type": "string"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaAttributionSourceId": {
++      "description": "Identifier for the source contributing to this attribution.",
++      "id": "GoogleAiGenerativelanguageV1betaAttributionSourceId",
++      "properties": {
++        "groundingPassage": {
++          "$ref": "GoogleAiGenerativelanguageV1betaAttributionSourceIdGroundingPassageId",
++          "description": "Identifier for an inline passage."
++        },
++        "semanticRetrieverChunk": {
++          "$ref": "GoogleAiGenerativelanguageV1betaAttributionSourceIdSemanticRetrieverChunk",
++          "description": "Identifier for a `Chunk` fetched via Semantic Retriever."
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaAttributionSourceIdGroundingPassageId": {
++      "description": "Identifier for a part within a `GroundingPassage`.",
++      "id": "GoogleAiGenerativelanguageV1betaAttributionSourceIdGroundingPassageId",
++      "properties": {
++        "partIndex": {
++          "description": "Output only. Index of the part within the `GenerateAnswerRequest`'s `GroundingPassage.content`.",
++          "format": "int32",
++          "readOnly": true,
++          "type": "integer"
++        },
++        "passageId": {
++          "description": "Output only. ID of the passage matching the `GenerateAnswerRequest`'s `GroundingPassage.id`.",
++          "readOnly": true,
++          "type": "string"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaAttributionSourceIdSemanticRetrieverChunk": {
++      "description": "Identifier for a `Chunk` retrieved via Semantic Retriever specified in the `GenerateAnswerRequest` using `SemanticRetrieverConfig`.",
++      "id": "GoogleAiGenerativelanguageV1betaAttributionSourceIdSemanticRetrieverChunk",
++      "properties": {
++        "chunk": {
++          "description": "Output only. Name of the `Chunk` containing the attributed text. Example: `corpora/123/documents/abc/chunks/xyz`",
++          "readOnly": true,
++          "type": "string"
++        },
++        "source": {
++          "description": "Output only. Name of the source matching the request's `SemanticRetrieverConfig.source`. Example: `corpora/123` or `corpora/123/documents/abc`",
++          "readOnly": true,
++          "type": "string"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaBlob": {
++      "description": "Raw media bytes. Text should not be sent as raw bytes, use the 'text' field.",
++      "id": "GoogleAiGenerativelanguageV1betaBlob",
++      "properties": {
++        "data": {
++          "description": "Raw bytes for media formats.",
++          "format": "byte",
++          "type": "string"
++        },
++        "mimeType": {
++          "description": "The IANA standard MIME type of the source data. Examples: - image/png - image/jpeg If an unsupported MIME type is provided, an error will be returned. For a complete list of supported types, see [Supported file formats](https://ai.google.dev/gemini-api/docs/prompting_with_media#supported_file_formats).",
++          "type": "string"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaCandidate": {
++      "description": "A response candidate generated from the model.",
++      "id": "GoogleAiGenerativelanguageV1betaCandidate",
++      "properties": {
++        "avgLogprobs": {
++          "description": "Output only. Average log probability score of the candidate.",
++          "format": "double",
++          "readOnly": true,
++          "type": "number"
++        },
++        "citationMetadata": {
++          "$ref": "GoogleAiGenerativelanguageV1betaCitationMetadata",
++          "description": "Output only. Citation information for model-generated candidate. This field may be populated with recitation information for any text included in the `content`. These are passages that are \"recited\" from copyrighted material in the foundational LLM's training data.",
++          "readOnly": true
++        },
++        "content": {
++          "$ref": "GoogleAiGenerativelanguageV1betaContent",
++          "description": "Output only. Generated content returned from the model.",
++          "readOnly": true
++        },
++        "finishReason": {
++          "description": "Optional. Output only. The reason why the model stopped generating tokens. If empty, the model has not stopped generating tokens.",
++          "enum": [
++            "FINISH_REASON_UNSPECIFIED",
++            "STOP",
++            "MAX_TOKENS",
++            "SAFETY",
++            "RECITATION",
++            "LANGUAGE",
++            "OTHER",
++            "BLOCKLIST",
++            "PROHIBITED_CONTENT",
++            "SPII",
++            "MALFORMED_FUNCTION_CALL",
++            "IMAGE_SAFETY"
++          ],
++          "enumDescriptions": [
++            "Default value. This value is unused.",
++            "Natural stop point of the model or provided stop sequence.",
++            "The maximum number of tokens as specified in the request was reached.",
++            "The response candidate content was flagged for safety reasons.",
++            "The response candidate content was flagged for recitation reasons.",
++            "The response candidate content was flagged for using an unsupported language.",
++            "Unknown reason.",
++            "Token generation stopped because the content contains forbidden terms.",
++            "Token generation stopped for potentially containing prohibited content.",
++            "Token generation stopped because the content potentially contains Sensitive Personally Identifiable Information (SPII).",
++            "The function call generated by the model is invalid.",
++            "Token generation stopped because generated images contain safety violations."
++          ],
++          "readOnly": true,
++          "type": "string"
++        },
++        "groundingAttributions": {
++          "description": "Output only. Attribution information for sources that contributed to a grounded answer. This field is populated for `GenerateAnswer` calls.",
++          "items": {
++            "$ref": "GoogleAiGenerativelanguageV1betaGroundingAttribution"
++          },
++          "readOnly": true,
++          "type": "array"
++        },
++        "groundingMetadata": {
++          "$ref": "GoogleAiGenerativelanguageV1betaGroundingMetadata",
++          "description": "Output only. Grounding metadata for the candidate. This field is populated for `GenerateContent` calls.",
++          "readOnly": true
++        },
++        "index": {
++          "description": "Output only. Index of the candidate in the list of response candidates.",
++          "format": "int32",
++          "readOnly": true,
++          "type": "integer"
++        },
++        "logprobsResult": {
++          "$ref": "GoogleAiGenerativelanguageV1betaLogprobsResult",
++          "description": "Output only. Log-likelihood scores for the response tokens and top tokens",
++          "readOnly": true
++        },
++        "safetyRatings": {
++          "description": "List of ratings for the safety of a response candidate. There is at most one rating per category.",
++          "items": {
++            "$ref": "GoogleAiGenerativelanguageV1betaSafetyRating"
++          },
++          "type": "array"
++        },
++        "tokenCount": {
++          "description": "Output only. Token count for this candidate.",
++          "format": "int32",
++          "readOnly": true,
++          "type": "integer"
++        },
++        "urlRetrievalMetadata": {
++          "$ref": "GoogleAiGenerativelanguageV1betaUrlRetrievalMetadata",
++          "description": "Output only. Metadata related to url context retrieval tool.",
++          "readOnly": true
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaCitationMetadata": {
++      "description": "A collection of source attributions for a piece of content.",
++      "id": "GoogleAiGenerativelanguageV1betaCitationMetadata",
++      "properties": {
++        "citationSources": {
++          "description": "Citations to sources for a specific response.",
++          "items": {
++            "$ref": "GoogleAiGenerativelanguageV1betaCitationSource"
++          },
++          "type": "array"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaCitationSource": {
++      "description": "A citation to a source for a portion of a specific response.",
++      "id": "GoogleAiGenerativelanguageV1betaCitationSource",
++      "properties": {
++        "endIndex": {
++          "description": "Optional. End of the attributed segment, exclusive.",
++          "format": "int32",
++          "type": "integer"
++        },
++        "license": {
++          "description": "Optional. License for the GitHub project that is attributed as a source for segment. License info is required for code citations.",
++          "type": "string"
++        },
++        "startIndex": {
++          "description": "Optional. Start of segment of the response that is attributed to this source. Index indicates the start of the segment, measured in bytes.",
++          "format": "int32",
++          "type": "integer"
++        },
++        "uri": {
++          "description": "Optional. URI that is attributed as a source for a portion of the text.",
++          "type": "string"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaCodeExecution": {
++      "description": "Tool that executes code generated by the model, and automatically returns the result to the model. See also `ExecutableCode` and `CodeExecutionResult` which are only generated when using this tool.",
++      "id": "GoogleAiGenerativelanguageV1betaCodeExecution",
++      "properties": {},
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaCodeExecutionResult": {
++      "description": "Result of executing the `ExecutableCode`. Only generated when using the `CodeExecution`, and always follows a `part` containing the `ExecutableCode`.",
++      "id": "GoogleAiGenerativelanguageV1betaCodeExecutionResult",
++      "properties": {
++        "outcome": {
++          "description": "Required. Outcome of the code execution.",
++          "enum": [
++            "OUTCOME_UNSPECIFIED",
++            "OUTCOME_OK",
++            "OUTCOME_FAILED",
++            "OUTCOME_DEADLINE_EXCEEDED"
++          ],
++          "enumDescriptions": [
++            "Unspecified status. This value should not be used.",
++            "Code execution completed successfully.",
++            "Code execution finished but with a failure. `stderr` should contain the reason.",
++            "Code execution ran for too long, and was cancelled. There may or may not be a partial output present."
++          ],
++          "type": "string"
++        },
++        "output": {
++          "description": "Optional. Contains stdout when code execution is successful, stderr or other description otherwise.",
++          "type": "string"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaContent": {
++      "description": "The base structured datatype containing multi-part content of a message. A `Content` includes a `role` field designating the producer of the `Content` and a `parts` field containing multi-part data that contains the content of the message turn.",
++      "id": "GoogleAiGenerativelanguageV1betaContent",
++      "properties": {
++        "parts": {
++          "description": "Ordered `Parts` that constitute a single message. Parts may have different MIME types.",
++          "items": {
++            "$ref": "GoogleAiGenerativelanguageV1betaPart"
++          },
++          "type": "array"
++        },
++        "role": {
++          "description": "Optional. The producer of the content. Must be either 'user' or 'model'. Useful to set for multi-turn conversations, otherwise can be left blank or unset.",
++          "type": "string"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaCountTokensRequest": {
++      "description": "Counts the number of tokens in the `prompt` sent to a model. Models may tokenize text differently, so each model may return a different `token_count`.",
++      "id": "GoogleAiGenerativelanguageV1betaCountTokensRequest",
++      "properties": {
++        "contents": {
++          "description": "Optional. The input given to the model as a prompt. This field is ignored when `generate_content_request` is set.",
++          "items": {
++            "$ref": "GoogleAiGenerativelanguageV1betaContent"
++          },
++          "type": "array"
++        },
++        "generateContentRequest": {
++          "$ref": "GoogleAiGenerativelanguageV1betaGenerateContentRequest",
++          "description": "Optional. The overall input given to the `Model`. This includes the prompt as well as other model steering information like [system instructions](https://ai.google.dev/gemini-api/docs/system-instructions), and/or function declarations for [function calling](https://ai.google.dev/gemini-api/docs/function-calling). `Model`s/`Content`s and `generate_content_request`s are mutually exclusive. You can either send `Model` + `Content`s or a `generate_content_request`, but never both."
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaCountTokensResponse": {
++      "description": "A response from `CountTokens`. It returns the model's `token_count` for the `prompt`.",
++      "id": "GoogleAiGenerativelanguageV1betaCountTokensResponse",
++      "properties": {
++        "cacheTokensDetails": {
++          "description": "Output only. List of modalities that were processed in the cached content.",
++          "items": {
++            "$ref": "GoogleAiGenerativelanguageV1betaModalityTokenCount"
++          },
++          "readOnly": true,
++          "type": "array"
++        },
++        "cachedContentTokenCount": {
++          "description": "Number of tokens in the cached part of the prompt (the cached content).",
++          "format": "int32",
++          "type": "integer"
++        },
++        "promptTokensDetails": {
++          "description": "Output only. List of modalities that were processed in the request input.",
++          "items": {
++            "$ref": "GoogleAiGenerativelanguageV1betaModalityTokenCount"
++          },
++          "readOnly": true,
++          "type": "array"
++        },
++        "totalTokens": {
++          "description": "The number of tokens that the `Model` tokenizes the `prompt` into. Always non-negative.",
++          "format": "int32",
++          "type": "integer"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaDynamicRetrievalConfig": {
++      "description": "Describes the options to customize dynamic retrieval.",
++      "id": "GoogleAiGenerativelanguageV1betaDynamicRetrievalConfig",
++      "properties": {
++        "dynamicThreshold": {
++          "description": "The threshold to be used in dynamic retrieval. If not set, a system default value is used.",
++          "format": "float",
++          "type": "number"
++        },
++        "mode": {
++          "description": "The mode of the predictor to be used in dynamic retrieval.",
++          "enum": [
++            "MODE_UNSPECIFIED",
++            "MODE_DYNAMIC"
++          ],
++          "enumDescriptions": [
++            "Always trigger retrieval.",
++            "Run retrieval only when system decides it is necessary."
++          ],
++          "type": "string"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaExecutableCode": {
++      "description": "Code generated by the model that is meant to be executed, and the result returned to the model. Only generated when using the `CodeExecution` tool, in which the code will be automatically executed, and a corresponding `CodeExecutionResult` will also be generated.",
++      "id": "GoogleAiGenerativelanguageV1betaExecutableCode",
++      "properties": {
++        "code": {
++          "description": "Required. The code to be executed.",
++          "type": "string"
++        },
++        "language": {
++          "description": "Required. Programming language of the `code`.",
++          "enum": [
++            "LANGUAGE_UNSPECIFIED",
++            "PYTHON"
++          ],
++          "enumDescriptions": [
++            "Unspecified language. This value should not be used.",
++            "Python >= 3.10, with numpy and simpy available."
++          ],
++          "type": "string"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaFileData": {
++      "description": "URI based data.",
++      "id": "GoogleAiGenerativelanguageV1betaFileData",
++      "properties": {
++        "fileUri": {
++          "description": "Required. URI.",
++          "type": "string"
++        },
++        "mimeType": {
++          "description": "Optional. The IANA standard MIME type of the source data.",
++          "type": "string"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaFunctionCall": {
++      "description": "A predicted `FunctionCall` returned from the model that contains a string representing the `FunctionDeclaration.name` with the arguments and their values.",
++      "id": "GoogleAiGenerativelanguageV1betaFunctionCall",
++      "properties": {
++        "args": {
++          "additionalProperties": {
++            "description": "Properties of the object.",
++            "type": "any"
++          },
++          "description": "Optional. The function parameters and values in JSON object format.",
++          "type": "object"
++        },
++        "id": {
++          "description": "Optional. The unique id of the function call. If populated, the client to execute the `function_call` and return the response with the matching `id`.",
++          "type": "string"
++        },
++        "name": {
++          "description": "Required. The name of the function to call. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 63.",
++          "type": "string"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaFunctionCallingConfig": {
++      "description": "Configuration for specifying function calling behavior.",
++      "id": "GoogleAiGenerativelanguageV1betaFunctionCallingConfig",
++      "properties": {
++        "allowedFunctionNames": {
++          "description": "Optional. A set of function names that, when provided, limits the functions the model will call. This should only be set when the Mode is ANY. Function names should match [FunctionDeclaration.name]. With mode set to ANY, model will predict a function call from the set of function names provided.",
++          "items": {
++            "type": "string"
++          },
++          "type": "array"
++        },
++        "mode": {
++          "description": "Optional. Specifies the mode in which function calling should execute. If unspecified, the default value will be set to AUTO.",
++          "enum": [
++            "MODE_UNSPECIFIED",
++            "AUTO",
++            "ANY",
++            "NONE",
++            "VALIDATED"
++          ],
++          "enumDescriptions": [
++            "Unspecified function calling mode. This value should not be used.",
++            "Default model behavior, model decides to predict either a function call or a natural language response.",
++            "Model is constrained to always predicting a function call only. If \"allowed_function_names\" are set, the predicted function call will be limited to any one of \"allowed_function_names\", else the predicted function call will be any one of the provided \"function_declarations\".",
++            "Model will not predict any function call. Model behavior is same as when not passing any function declarations.",
++            "Model decides to predict either a function call or a natural language response, but will validate function calls with constrained decoding."
++          ],
++          "type": "string"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaFunctionDeclaration": {
++      "description": "Structured representation of a function declaration as defined by the [OpenAPI 3.03 specification](https://spec.openapis.org/oas/v3.0.3). Included in this declaration are the function name and parameters. This FunctionDeclaration is a representation of a block of code that can be used as a `Tool` by the model and executed by the client.",
++      "id": "GoogleAiGenerativelanguageV1betaFunctionDeclaration",
++      "properties": {
++        "description": {
++          "description": "Required. A brief description of the function.",
++          "type": "string"
++        },
++        "name": {
++          "description": "Required. The name of the function. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 63.",
++          "type": "string"
++        },
++        "parameters": {
++          "$ref": "GoogleAiGenerativelanguageV1betaSchema",
++          "description": "Optional. Describes the parameters to this function. Reflects the Open API 3.03 Parameter Object string Key: the name of the parameter. Parameter names are case sensitive. Schema Value: the Schema defining the type used for the parameter."
++        },
++        "response": {
++          "$ref": "GoogleAiGenerativelanguageV1betaSchema",
++          "description": "Optional. Describes the output from this function in JSON Schema format. Reflects the Open API 3.03 Response Object. The Schema defines the type used for the response value of the function."
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaFunctionResponse": {
++      "description": "The result output from a `FunctionCall` that contains a string representing the `FunctionDeclaration.name` and a structured JSON object containing any output from the function is used as context to the model. This should contain the result of a`FunctionCall` made based on model prediction.",
++      "id": "GoogleAiGenerativelanguageV1betaFunctionResponse",
++      "properties": {
++        "id": {
++          "description": "Optional. The id of the function call this response is for. Populated by the client to match the corresponding function call `id`.",
++          "type": "string"
++        },
++        "name": {
++          "description": "Required. The name of the function to call. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 63.",
++          "type": "string"
++        },
++        "response": {
++          "additionalProperties": {
++            "description": "Properties of the object.",
++            "type": "any"
++          },
++          "description": "Required. The function response in JSON object format.",
++          "type": "object"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaGenerateContentRequest": {
++      "description": "Request to generate a completion from the model.",
++      "id": "GoogleAiGenerativelanguageV1betaGenerateContentRequest",
++      "properties": {
++        "cachedContent": {
++          "description": "Optional. The name of the content [cached](https://ai.google.dev/gemini-api/docs/caching) to use as context to serve the prediction. Format: `cachedContents/{cachedContent}`",
++          "type": "string"
++        },
++        "contents": {
++          "description": "Required. The content of the current conversation with the model. For single-turn queries, this is a single instance. For multi-turn queries like [chat](https://ai.google.dev/gemini-api/docs/text-generation#chat), this is a repeated field that contains the conversation history and the latest request.",
++          "items": {
++            "$ref": "GoogleAiGenerativelanguageV1betaContent"
++          },
++          "type": "array"
++        },
++        "generationConfig": {
++          "$ref": "GoogleAiGenerativelanguageV1betaGenerationConfig",
++          "description": "Optional. Configuration options for model generation and outputs."
++        },
++        "model": {
++          "description": "Required. The name of the `Model` to use for generating the completion. Format: `models/{model}`.",
++          "type": "string"
++        },
++        "safetySettings": {
++          "description": "Optional. A list of unique `SafetySetting` instances for blocking unsafe content. This will be enforced on the `GenerateContentRequest.contents` and `GenerateContentResponse.candidates`. There should not be more than one setting for each `SafetyCategory` type. The API will block any contents and responses that fail to meet the thresholds set by these settings. This list overrides the default settings for each `SafetyCategory` specified in the safety_settings. If there is no `SafetySetting` for a given `SafetyCategory` provided in the list, the API will use the default safety setting for that category. Harm categories HARM_CATEGORY_HATE_SPEECH, HARM_CATEGORY_SEXUALLY_EXPLICIT, HARM_CATEGORY_DANGEROUS_CONTENT, HARM_CATEGORY_HARASSMENT, HARM_CATEGORY_CIVIC_INTEGRITY are supported. Refer to the [guide](https://ai.google.dev/gemini-api/docs/safety-settings) for detailed information on available safety settings. Also refer to the [Safety guidance](https://ai.google.dev/gemini-api/docs/safety-guidance) to learn how to incorporate safety considerations in your AI applications.",
++          "items": {
++            "$ref": "GoogleAiGenerativelanguageV1betaSafetySetting"
++          },
++          "type": "array"
++        },
++        "systemInstruction": {
++          "$ref": "GoogleAiGenerativelanguageV1betaContent",
++          "description": "Optional. Developer set [system instruction(s)](https://ai.google.dev/gemini-api/docs/system-instructions). Currently, text only."
++        },
++        "toolConfig": {
++          "$ref": "GoogleAiGenerativelanguageV1betaToolConfig",
++          "description": "Optional. Tool configuration for any `Tool` specified in the request. Refer to the [Function calling guide](https://ai.google.dev/gemini-api/docs/function-calling#function_calling_mode) for a usage example."
++        },
++        "tools": {
++          "description": "Optional. A list of `Tools` the `Model` may use to generate the next response. A `Tool` is a piece of code that enables the system to interact with external systems to perform an action, or set of actions, outside of knowledge and scope of the `Model`. Supported `Tool`s are `Function` and `code_execution`. Refer to the [Function calling](https://ai.google.dev/gemini-api/docs/function-calling) and the [Code execution](https://ai.google.dev/gemini-api/docs/code-execution) guides to learn more.",
++          "items": {
++            "$ref": "GoogleAiGenerativelanguageV1betaTool"
++          },
++          "type": "array"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaGenerateContentResponse": {
++      "description": "Response from the model supporting multiple candidate responses. Safety ratings and content filtering are reported for both prompt in `GenerateContentResponse.prompt_feedback` and for each candidate in `finish_reason` and in `safety_ratings`. The API: - Returns either all requested candidates or none of them - Returns no candidates at all only if there was something wrong with the prompt (check `prompt_feedback`) - Reports feedback on each candidate in `finish_reason` and `safety_ratings`.",
++      "id": "GoogleAiGenerativelanguageV1betaGenerateContentResponse",
++      "properties": {
++        "candidates": {
++          "description": "Candidate responses from the model.",
++          "items": {
++            "$ref": "GoogleAiGenerativelanguageV1betaCandidate"
++          },
++          "type": "array"
++        },
++        "modelVersion": {
++          "description": "Output only. The model version used to generate the response.",
++          "readOnly": true,
++          "type": "string"
++        },
++        "promptFeedback": {
++          "$ref": "GoogleAiGenerativelanguageV1betaGenerateContentResponsePromptFeedback",
++          "description": "Returns the prompt's feedback related to the content filters."
++        },
++        "usageMetadata": {
++          "$ref": "GoogleAiGenerativelanguageV1betaGenerateContentResponseUsageMetadata",
++          "description": "Output only. Metadata on the generation requests' token usage.",
++          "readOnly": true
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaGenerateContentResponsePromptFeedback": {
++      "description": "A set of the feedback metadata the prompt specified in `GenerateContentRequest.content`.",
++      "id": "GoogleAiGenerativelanguageV1betaGenerateContentResponsePromptFeedback",
++      "properties": {
++        "blockReason": {
++          "description": "Optional. If set, the prompt was blocked and no candidates are returned. Rephrase the prompt.",
++          "enum": [
++            "BLOCK_REASON_UNSPECIFIED",
++            "SAFETY",
++            "OTHER",
++            "BLOCKLIST",
++            "PROHIBITED_CONTENT",
++            "IMAGE_SAFETY"
++          ],
++          "enumDescriptions": [
++            "Default value. This value is unused.",
++            "Prompt was blocked due to safety reasons. Inspect `safety_ratings` to understand which safety category blocked it.",
++            "Prompt was blocked due to unknown reasons.",
++            "Prompt was blocked due to the terms which are included from the terminology blocklist.",
++            "Prompt was blocked due to prohibited content.",
++            "Candidates blocked due to unsafe image generation content."
++          ],
++          "type": "string"
++        },
++        "safetyRatings": {
++          "description": "Ratings for safety of the prompt. There is at most one rating per category.",
++          "items": {
++            "$ref": "GoogleAiGenerativelanguageV1betaSafetyRating"
++          },
++          "type": "array"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaGenerateContentResponseUsageMetadata": {
++      "description": "Metadata on the generation request's token usage.",
++      "id": "GoogleAiGenerativelanguageV1betaGenerateContentResponseUsageMetadata",
++      "properties": {
++        "cacheTokensDetails": {
++          "description": "Output only. List of modalities of the cached content in the request input.",
++          "items": {
++            "$ref": "GoogleAiGenerativelanguageV1betaModalityTokenCount"
++          },
++          "readOnly": true,
++          "type": "array"
++        },
++        "cachedContentTokenCount": {
++          "description": "Number of tokens in the cached part of the prompt (the cached content)",
++          "format": "int32",
++          "type": "integer"
++        },
++        "candidatesTokenCount": {
++          "description": "Total number of tokens across all the generated response candidates.",
++          "format": "int32",
++          "type": "integer"
++        },
++        "candidatesTokensDetails": {
++          "description": "Output only. List of modalities that were returned in the response.",
++          "items": {
++            "$ref": "GoogleAiGenerativelanguageV1betaModalityTokenCount"
++          },
++          "readOnly": true,
++          "type": "array"
++        },
++        "promptTokenCount": {
++          "description": "Number of tokens in the prompt. When `cached_content` is set, this is still the total effective prompt size meaning this includes the number of tokens in the cached content.",
++          "format": "int32",
++          "type": "integer"
++        },
++        "promptTokensDetails": {
++          "description": "Output only. List of modalities that were processed in the request input.",
++          "items": {
++            "$ref": "GoogleAiGenerativelanguageV1betaModalityTokenCount"
++          },
++          "readOnly": true,
++          "type": "array"
++        },
++        "thoughtsTokenCount": {
++          "description": "Output only. Number of tokens of thoughts for thinking models.",
++          "format": "int32",
++          "readOnly": true,
++          "type": "integer"
++        },
++        "toolUsePromptTokenCount": {
++          "description": "Output only. Number of tokens present in tool-use prompt(s).",
++          "format": "int32",
++          "readOnly": true,
++          "type": "integer"
++        },
++        "toolUsePromptTokensDetails": {
++          "description": "Output only. List of modalities that were processed for tool-use request inputs.",
++          "items": {
++            "$ref": "GoogleAiGenerativelanguageV1betaModalityTokenCount"
++          },
++          "readOnly": true,
++          "type": "array"
++        },
++        "totalTokenCount": {
++          "description": "Total token count for the generation request (prompt + response candidates).",
++          "format": "int32",
++          "type": "integer"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaGenerationConfig": {
++      "description": "Configuration options for model generation and outputs. Not all parameters are configurable for every model.",
++      "id": "GoogleAiGenerativelanguageV1betaGenerationConfig",
++      "properties": {
++        "candidateCount": {
++          "description": "Optional. Number of generated responses to return. If unset, this will default to 1. Please note that this doesn't work for previous generation models (Gemini 1.0 family)",
++          "format": "int32",
++          "type": "integer"
++        },
++        "enableEnhancedCivicAnswers": {
++          "description": "Optional. Enables enhanced civic answers. It may not be available for all models.",
++          "type": "boolean"
++        },
++        "frequencyPenalty": {
++          "description": "Optional. Frequency penalty applied to the next token's logprobs, multiplied by the number of times each token has been seen in the respponse so far. A positive penalty will discourage the use of tokens that have already been used, proportional to the number of times the token has been used: The more a token is used, the more difficult it is for the model to use that token again increasing the vocabulary of responses. Caution: A _negative_ penalty will encourage the model to reuse tokens proportional to the number of times the token has been used. Small negative values will reduce the vocabulary of a response. Larger negative values will cause the model to start repeating a common token until it hits the max_output_tokens limit.",
++          "format": "float",
++          "type": "number"
++        },
++        "logprobs": {
++          "description": "Optional. Only valid if response_logprobs=True. This sets the number of top logprobs to return at each decoding step in the Candidate.logprobs_result.",
++          "format": "int32",
++          "type": "integer"
++        },
++        "maxOutputTokens": {
++          "description": "Optional. The maximum number of tokens to include in a response candidate. Note: The default value varies by model, see the `Model.output_token_limit` attribute of the `Model` returned from the `getModel` function.",
++          "format": "int32",
++          "type": "integer"
++        },
++        "mediaResolution": {
++          "description": "Optional. If specified, the media resolution specified will be used.",
++          "enum": [
++            "MEDIA_RESOLUTION_UNSPECIFIED",
++            "MEDIA_RESOLUTION_LOW",
++            "MEDIA_RESOLUTION_MEDIUM",
++            "MEDIA_RESOLUTION_HIGH"
++          ],
++          "enumDescriptions": [
++            "Media resolution has not been set.",
++            "Media resolution set to low (64 tokens).",
++            "Media resolution set to medium (256 tokens).",
++            "Media resolution set to high (zoomed reframing with 256 tokens)."
++          ],
++          "type": "string"
++        },
++        "presencePenalty": {
++          "description": "Optional. Presence penalty applied to the next token's logprobs if the token has already been seen in the response. This penalty is binary on/off and not dependant on the number of times the token is used (after the first). Use frequency_penalty for a penalty that increases with each use. A positive penalty will discourage the use of tokens that have already been used in the response, increasing the vocabulary. A negative penalty will encourage the use of tokens that have already been used in the response, decreasing the vocabulary.",
++          "format": "float",
++          "type": "number"
++        },
++        "responseLogprobs": {
++          "description": "Optional. If true, export the logprobs results in response.",
++          "type": "boolean"
++        },
++        "responseMimeType": {
++          "description": "Optional. MIME type of the generated candidate text. Supported MIME types are: `text/plain`: (default) Text output. `application/json`: JSON response in the response candidates. `text/x.enum`: ENUM as a string response in the response candidates. Refer to the [docs](https://ai.google.dev/gemini-api/docs/prompting_with_media#plain_text_formats) for a list of all supported text MIME types.",
++          "type": "string"
++        },
++        "responseModalities": {
++          "description": "Optional. The requested modalities of the response. Represents the set of modalities that the model can return, and should be expected in the response. This is an exact match to the modalities of the response. A model may have multiple combinations of supported modalities. If the requested modalities do not match any of the supported combinations, an error will be returned. An empty list is equivalent to requesting only text.",
++          "items": {
++            "enum": [
++              "MODALITY_UNSPECIFIED",
++              "TEXT",
++              "IMAGE",
++              "AUDIO"
++            ],
++            "enumDescriptions": [
++              "Default value.",
++              "Indicates the model should return text.",
++              "Indicates the model should return images.",
++              "Indicates the model should return audio."
++            ],
++            "type": "string"
++          },
++          "type": "array"
++        },
++        "responseSchema": {
++          "$ref": "GoogleAiGenerativelanguageV1betaSchema",
++          "description": "Optional. Output schema of the generated candidate text. Schemas must be a subset of the [OpenAPI schema](https://spec.openapis.org/oas/v3.0.3#schema) and can be objects, primitives or arrays. If set, a compatible `response_mime_type` must also be set. Compatible MIME types: `application/json`: Schema for JSON response. Refer to the [JSON text generation guide](https://ai.google.dev/gemini-api/docs/json-mode) for more details."
++        },
++        "seed": {
++          "description": "Optional. Seed used in decoding. If not set, the request uses a randomly generated seed.",
++          "format": "int32",
++          "type": "integer"
++        },
++        "speechConfig": {
++          "$ref": "GoogleAiGenerativelanguageV1betaSpeechConfig",
++          "description": "Optional. The speech generation config."
++        },
++        "stopSequences": {
++          "description": "Optional. The set of character sequences (up to 5) that will stop output generation. If specified, the API will stop at the first appearance of a `stop_sequence`. The stop sequence will not be included as part of the response.",
++          "items": {
++            "type": "string"
++          },
++          "type": "array"
++        },
++        "temperature": {
++          "description": "Optional. Controls the randomness of the output. Note: The default value varies by model, see the `Model.temperature` attribute of the `Model` returned from the `getModel` function. Values can range from [0.0, 2.0].",
++          "format": "float",
++          "type": "number"
++        },
++        "thinkingConfig": {
++          "$ref": "GoogleAiGenerativelanguageV1betaThinkingConfig",
++          "description": "Optional. Config for thinking features. An error will be returned if this field is set for models that don't support thinking."
++        },
++        "topK": {
++          "description": "Optional. The maximum number of tokens to consider when sampling. Gemini models use Top-p (nucleus) sampling or a combination of Top-k and nucleus sampling. Top-k sampling considers the set of `top_k` most probable tokens. Models running with nucleus sampling don't allow top_k setting. Note: The default value varies by `Model` and is specified by the`Model.top_p` attribute returned from the `getModel` function. An empty `top_k` attribute indicates that the model doesn't apply top-k sampling and doesn't allow setting `top_k` on requests.",
++          "format": "int32",
++          "type": "integer"
++        },
++        "topP": {
++          "description": "Optional. The maximum cumulative probability of tokens to consider when sampling. The model uses combined Top-k and Top-p (nucleus) sampling. Tokens are sorted based on their assigned probabilities so that only the most likely tokens are considered. Top-k sampling directly limits the maximum number of tokens to consider, while Nucleus sampling limits the number of tokens based on the cumulative probability. Note: The default value varies by `Model` and is specified by the`Model.top_p` attribute returned from the `getModel` function. An empty `top_k` attribute indicates that the model doesn't apply top-k sampling and doesn't allow setting `top_k` on requests.",
++          "format": "float",
++          "type": "number"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaGoogleSearchRetrieval": {
++      "description": "Tool to retrieve public web data for grounding, powered by Google.",
++      "id": "GoogleAiGenerativelanguageV1betaGoogleSearchRetrieval",
++      "properties": {
++        "dynamicRetrievalConfig": {
++          "$ref": "GoogleAiGenerativelanguageV1betaDynamicRetrievalConfig",
++          "description": "Specifies the dynamic retrieval configuration for the given source."
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaGroundingAttribution": {
++      "description": "Attribution for a source that contributed to an answer.",
++      "id": "GoogleAiGenerativelanguageV1betaGroundingAttribution",
++      "properties": {
++        "content": {
++          "$ref": "GoogleAiGenerativelanguageV1betaContent",
++          "description": "Grounding source content that makes up this attribution."
++        },
++        "sourceId": {
++          "$ref": "GoogleAiGenerativelanguageV1betaAttributionSourceId",
++          "description": "Output only. Identifier for the source contributing to this attribution.",
++          "readOnly": true
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaGroundingChunk": {
++      "description": "Grounding chunk.",
++      "id": "GoogleAiGenerativelanguageV1betaGroundingChunk",
++      "properties": {
++        "web": {
++          "$ref": "GoogleAiGenerativelanguageV1betaGroundingChunkWeb",
++          "description": "Grounding chunk from the web."
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaGroundingChunkWeb": {
++      "description": "Chunk from the web.",
++      "id": "GoogleAiGenerativelanguageV1betaGroundingChunkWeb",
++      "properties": {
++        "title": {
++          "description": "Title of the chunk.",
++          "type": "string"
++        },
++        "uri": {
++          "description": "URI reference of the chunk.",
++          "type": "string"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaGroundingMetadata": {
++      "description": "Metadata returned to client when grounding is enabled.",
++      "id": "GoogleAiGenerativelanguageV1betaGroundingMetadata",
++      "properties": {
++        "groundingChunks": {
++          "description": "List of supporting references retrieved from specified grounding source.",
++          "items": {
++            "$ref": "GoogleAiGenerativelanguageV1betaGroundingChunk"
++          },
++          "type": "array"
++        },
++        "groundingSupports": {
++          "description": "List of grounding support.",
++          "items": {
++            "$ref": "GoogleAiGenerativelanguageV1betaGroundingSupport"
++          },
++          "type": "array"
++        },
++        "retrievalMetadata": {
++          "$ref": "GoogleAiGenerativelanguageV1betaRetrievalMetadata",
++          "description": "Metadata related to retrieval in the grounding flow."
++        },
++        "searchEntryPoint": {
++          "$ref": "GoogleAiGenerativelanguageV1betaSearchEntryPoint",
++          "description": "Optional. Google search entry for the following-up web searches."
++        },
++        "webSearchQueries": {
++          "description": "Web search queries for the following-up web search.",
++          "items": {
++            "type": "string"
++          },
++          "type": "array"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaGroundingSupport": {
++      "description": "Grounding support.",
++      "id": "GoogleAiGenerativelanguageV1betaGroundingSupport",
++      "properties": {
++        "confidenceScores": {
++          "description": "Confidence score of the support references. Ranges from 0 to 1. 1 is the most confident. This list must have the same size as the grounding_chunk_indices.",
++          "items": {
++            "format": "float",
++            "type": "number"
++          },
++          "type": "array"
++        },
++        "groundingChunkIndices": {
++          "description": "A list of indices (into 'grounding_chunk') specifying the citations associated with the claim. For instance [1,3,4] means that grounding_chunk[1], grounding_chunk[3], grounding_chunk[4] are the retrieved content attributed to the claim.",
++          "items": {
++            "format": "int32",
++            "type": "integer"
++          },
++          "type": "array"
++        },
++        "segment": {
++          "$ref": "GoogleAiGenerativelanguageV1betaSegment",
++          "description": "Segment of the content this support belongs to."
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaLogprobsResult": {
++      "description": "Logprobs Result",
++      "id": "GoogleAiGenerativelanguageV1betaLogprobsResult",
++      "properties": {
++        "chosenCandidates": {
++          "description": "Length = total number of decoding steps. The chosen candidates may or may not be in top_candidates.",
++          "items": {
++            "$ref": "GoogleAiGenerativelanguageV1betaLogprobsResultCandidate"
++          },
++          "type": "array"
++        },
++        "topCandidates": {
++          "description": "Length = total number of decoding steps.",
++          "items": {
++            "$ref": "GoogleAiGenerativelanguageV1betaLogprobsResultTopCandidates"
++          },
++          "type": "array"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaLogprobsResultCandidate": {
++      "description": "Candidate for the logprobs token and score.",
++      "id": "GoogleAiGenerativelanguageV1betaLogprobsResultCandidate",
++      "properties": {
++        "logProbability": {
++          "description": "The candidate's log probability.",
++          "format": "float",
++          "type": "number"
++        },
++        "token": {
++          "description": "The candidate’s token string value.",
++          "type": "string"
++        },
++        "tokenId": {
++          "description": "The candidate’s token id value.",
++          "format": "int32",
++          "type": "integer"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaLogprobsResultTopCandidates": {
++      "description": "Candidates with top log probabilities at each decoding step.",
++      "id": "GoogleAiGenerativelanguageV1betaLogprobsResultTopCandidates",
++      "properties": {
++        "candidates": {
++          "description": "Sorted by log probability in descending order.",
++          "items": {
++            "$ref": "GoogleAiGenerativelanguageV1betaLogprobsResultCandidate"
++          },
++          "type": "array"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaModalityTokenCount": {
++      "description": "Represents token counting info for a single modality.",
++      "id": "GoogleAiGenerativelanguageV1betaModalityTokenCount",
++      "properties": {
++        "modality": {
++          "description": "The modality associated with this token count.",
++          "enum": [
++            "MODALITY_UNSPECIFIED",
++            "TEXT",
++            "IMAGE",
++            "VIDEO",
++            "AUDIO",
++            "DOCUMENT"
++          ],
++          "enumDescriptions": [
++            "Unspecified modality.",
++            "Plain text.",
++            "Image.",
++            "Video.",
++            "Audio.",
++            "Document, e.g. PDF."
++          ],
++          "type": "string"
++        },
++        "tokenCount": {
++          "description": "Number of tokens.",
++          "format": "int32",
++          "type": "integer"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaPart": {
++      "description": "A datatype containing media that is part of a multi-part `Content` message. A `Part` consists of data which has an associated datatype. A `Part` can only contain one of the accepted types in `Part.data`. A `Part` must have a fixed IANA MIME type identifying the type and subtype of the media if the `inline_data` field is filled with raw bytes.",
++      "id": "GoogleAiGenerativelanguageV1betaPart",
++      "properties": {
++        "codeExecutionResult": {
++          "$ref": "GoogleAiGenerativelanguageV1betaCodeExecutionResult",
++          "description": "Result of executing the `ExecutableCode`."
++        },
++        "executableCode": {
++          "$ref": "GoogleAiGenerativelanguageV1betaExecutableCode",
++          "description": "Code generated by the model that is meant to be executed."
++        },
++        "fileData": {
++          "$ref": "GoogleAiGenerativelanguageV1betaFileData",
++          "description": "URI based data."
++        },
++        "functionCall": {
++          "$ref": "GoogleAiGenerativelanguageV1betaFunctionCall",
++          "description": "A predicted `FunctionCall` returned from the model that contains a string representing the `FunctionDeclaration.name` with the arguments and their values."
++        },
++        "functionResponse": {
++          "$ref": "GoogleAiGenerativelanguageV1betaFunctionResponse",
++          "description": "The result output of a `FunctionCall` that contains a string representing the `FunctionDeclaration.name` and a structured JSON object containing any output from the function is used as context to the model."
++        },
++        "inlineData": {
++          "$ref": "GoogleAiGenerativelanguageV1betaBlob",
++          "description": "Inline media bytes."
++        },
++        "text": {
++          "description": "Inline text.",
++          "type": "string"
++        },
++        "thought": {
++          "description": "Optional. Indicates if the part is thought from the model.",
++          "type": "boolean"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaPrebuiltVoiceConfig": {
++      "description": "The configuration for the prebuilt speaker to use.",
++      "id": "GoogleAiGenerativelanguageV1betaPrebuiltVoiceConfig",
++      "properties": {
++        "voiceName": {
++          "description": "The name of the preset voice to use.",
++          "type": "string"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaPredictRequest": {
++      "description": "Request message for PredictionService.Predict.",
++      "id": "GoogleAiGenerativelanguageV1betaPredictRequest",
++      "properties": {
++        "instances": {
++          "description": "Required. The instances that are the input to the prediction call.",
++          "items": {
++            "type": "any"
++          },
++          "type": "array"
++        },
++        "parameters": {
++          "description": "Optional. The parameters that govern the prediction call.",
++          "type": "any"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaPredictResponse": {
++      "description": "Response message for [PredictionService.Predict].",
++      "id": "GoogleAiGenerativelanguageV1betaPredictResponse",
++      "properties": {
++        "predictions": {
++          "description": "The outputs of the prediction call.",
++          "items": {
++            "type": "any"
++          },
++          "type": "array"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaRetrievalMetadata": {
++      "description": "Metadata related to retrieval in the grounding flow.",
++      "id": "GoogleAiGenerativelanguageV1betaRetrievalMetadata",
++      "properties": {
++        "googleSearchDynamicRetrievalScore": {
++          "description": "Optional. Score indicating how likely information from google search could help answer the prompt. The score is in the range [0, 1], where 0 is the least likely and 1 is the most likely. This score is only populated when google search grounding and dynamic retrieval is enabled. It will be compared to the threshold to determine whether to trigger google search.",
++          "format": "float",
++          "type": "number"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaSafetyRating": {
++      "description": "Safety rating for a piece of content. The safety rating contains the category of harm and the harm probability level in that category for a piece of content. Content is classified for safety across a number of harm categories and the probability of the harm classification is included here.",
++      "id": "GoogleAiGenerativelanguageV1betaSafetyRating",
++      "properties": {
++        "blocked": {
++          "description": "Was this content blocked because of this rating?",
++          "type": "boolean"
++        },
++        "category": {
++          "description": "Required. The category for this rating.",
++          "enum": [
++            "HARM_CATEGORY_UNSPECIFIED",
++            "HARM_CATEGORY_DEROGATORY",
++            "HARM_CATEGORY_TOXICITY",
++            "HARM_CATEGORY_VIOLENCE",
++            "HARM_CATEGORY_SEXUAL",
++            "HARM_CATEGORY_MEDICAL",
++            "HARM_CATEGORY_DANGEROUS",
++            "HARM_CATEGORY_HARASSMENT",
++            "HARM_CATEGORY_HATE_SPEECH",
++            "HARM_CATEGORY_SEXUALLY_EXPLICIT",
++            "HARM_CATEGORY_DANGEROUS_CONTENT",
++            "HARM_CATEGORY_CIVIC_INTEGRITY"
++          ],
++          "enumDescriptions": [
++            "Category is unspecified.",
++            "**PaLM** - Negative or harmful comments targeting identity and/or protected attribute.",
++            "**PaLM** - Content that is rude, disrespectful, or profane.",
++            "**PaLM** - Describes scenarios depicting violence against an individual or group, or general descriptions of gore.",
++            "**PaLM** - Contains references to sexual acts or other lewd content.",
++            "**PaLM** - Promotes unchecked medical advice.",
++            "**PaLM** - Dangerous content that promotes, facilitates, or encourages harmful acts.",
++            "**Gemini** - Harassment content.",
++            "**Gemini** - Hate speech and content.",
++            "**Gemini** - Sexually explicit content.",
++            "**Gemini** - Dangerous content.",
++            "**Gemini** - Content that may be used to harm civic integrity."
++          ],
++          "type": "string"
++        },
++        "probability": {
++          "description": "Required. The probability of harm for this content.",
++          "enum": [
++            "HARM_PROBABILITY_UNSPECIFIED",
++            "NEGLIGIBLE",
++            "LOW",
++            "MEDIUM",
++            "HIGH"
++          ],
++          "enumDescriptions": [
++            "Probability is unspecified.",
++            "Content has a negligible chance of being unsafe.",
++            "Content has a low chance of being unsafe.",
++            "Content has a medium chance of being unsafe.",
++            "Content has a high chance of being unsafe."
++          ],
++          "type": "string"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaSafetySetting": {
++      "description": "Safety setting, affecting the safety-blocking behavior. Passing a safety setting for a category changes the allowed probability that content is blocked.",
++      "id": "GoogleAiGenerativelanguageV1betaSafetySetting",
++      "properties": {
++        "category": {
++          "description": "Required. The category for this setting.",
++          "enum": [
++            "HARM_CATEGORY_UNSPECIFIED",
++            "HARM_CATEGORY_DEROGATORY",
++            "HARM_CATEGORY_TOXICITY",
++            "HARM_CATEGORY_VIOLENCE",
++            "HARM_CATEGORY_SEXUAL",
++            "HARM_CATEGORY_MEDICAL",
++            "HARM_CATEGORY_DANGEROUS",
++            "HARM_CATEGORY_HARASSMENT",
++            "HARM_CATEGORY_HATE_SPEECH",
++            "HARM_CATEGORY_SEXUALLY_EXPLICIT",
++            "HARM_CATEGORY_DANGEROUS_CONTENT",
++            "HARM_CATEGORY_CIVIC_INTEGRITY"
++          ],
++          "enumDescriptions": [
++            "Category is unspecified.",
++            "**PaLM** - Negative or harmful comments targeting identity and/or protected attribute.",
++            "**PaLM** - Content that is rude, disrespectful, or profane.",
++            "**PaLM** - Describes scenarios depicting violence against an individual or group, or general descriptions of gore.",
++            "**PaLM** - Contains references to sexual acts or other lewd content.",
++            "**PaLM** - Promotes unchecked medical advice.",
++            "**PaLM** - Dangerous content that promotes, facilitates, or encourages harmful acts.",
++            "**Gemini** - Harassment content.",
++            "**Gemini** - Hate speech and content.",
++            "**Gemini** - Sexually explicit content.",
++            "**Gemini** - Dangerous content.",
++            "**Gemini** - Content that may be used to harm civic integrity."
++          ],
++          "type": "string"
++        },
++        "threshold": {
++          "description": "Required. Controls the probability threshold at which harm is blocked.",
++          "enum": [
++            "HARM_BLOCK_THRESHOLD_UNSPECIFIED",
++            "BLOCK_LOW_AND_ABOVE",
++            "BLOCK_MEDIUM_AND_ABOVE",
++            "BLOCK_ONLY_HIGH",
++            "BLOCK_NONE",
++            "OFF"
++          ],
++          "enumDescriptions": [
++            "Threshold is unspecified.",
++            "Content with NEGLIGIBLE will be allowed.",
++            "Content with NEGLIGIBLE and LOW will be allowed.",
++            "Content with NEGLIGIBLE, LOW, and MEDIUM will be allowed.",
++            "All content will be allowed.",
++            "Turn off the safety filter."
++          ],
++          "type": "string"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaSchema": {
++      "description": "The `Schema` object allows the definition of input and output data types. These types can be objects, but also primitives and arrays. Represents a select subset of an [OpenAPI 3.0 schema object](https://spec.openapis.org/oas/v3.0.3#schema).",
++      "id": "GoogleAiGenerativelanguageV1betaSchema",
++      "properties": {
++        "anyOf": {
++          "description": "Optional. The value should be validated against any (one or more) of the subschemas in the list.",
++          "items": {
++            "$ref": "GoogleAiGenerativelanguageV1betaSchema"
++          },
++          "type": "array"
++        },
++        "default": {
++          "description": "Optional. Default value of the field. Per JSON Schema, this field is intended for documentation generators and doesn't affect validation. Thus it's included here and ignored so that developers who send schemas with a `default` field don't get unknown-field errors.",
++          "type": "any"
++        },
++        "description": {
++          "description": "Optional. A brief description of the parameter. This could contain examples of use. Parameter description may be formatted as Markdown.",
++          "type": "string"
++        },
++        "enum": {
++          "description": "Optional. Possible values of the element of Type.STRING with enum format. For example we can define an Enum Direction as : {type:STRING, format:enum, enum:[\"EAST\", NORTH\", \"SOUTH\", \"WEST\"]}",
++          "items": {
++            "type": "string"
++          },
++          "type": "array"
++        },
++        "example": {
++          "description": "Optional. Example of the object. Will only populated when the object is the root.",
++          "type": "any"
++        },
++        "format": {
++          "description": "Optional. The format of the data. This is used only for primitive datatypes. Supported formats: for NUMBER type: float, double for INTEGER type: int32, int64 for STRING type: enum, date-time",
++          "type": "string"
++        },
++        "items": {
++          "$ref": "GoogleAiGenerativelanguageV1betaSchema",
++          "description": "Optional. Schema of the elements of Type.ARRAY."
++        },
++        "maxItems": {
++          "description": "Optional. Maximum number of the elements for Type.ARRAY.",
++          "format": "int64",
++          "type": "string"
++        },
++        "maxLength": {
++          "description": "Optional. Maximum length of the Type.STRING",
++          "format": "int64",
++          "type": "string"
++        },
++        "maxProperties": {
++          "description": "Optional. Maximum number of the properties for Type.OBJECT.",
++          "format": "int64",
++          "type": "string"
++        },
++        "maximum": {
++          "description": "Optional. Maximum value of the Type.INTEGER and Type.NUMBER",
++          "format": "double",
++          "type": "number"
++        },
++        "minItems": {
++          "description": "Optional. Minimum number of the elements for Type.ARRAY.",
++          "format": "int64",
++          "type": "string"
++        },
++        "minLength": {
++          "description": "Optional. SCHEMA FIELDS FOR TYPE STRING Minimum length of the Type.STRING",
++          "format": "int64",
++          "type": "string"
++        },
++        "minProperties": {
++          "description": "Optional. Minimum number of the properties for Type.OBJECT.",
++          "format": "int64",
++          "type": "string"
++        },
++        "minimum": {
++          "description": "Optional. SCHEMA FIELDS FOR TYPE INTEGER and NUMBER Minimum value of the Type.INTEGER and Type.NUMBER",
++          "format": "double",
++          "type": "number"
++        },
++        "nullable": {
++          "description": "Optional. Indicates if the value may be null.",
++          "type": "boolean"
++        },
++        "pattern": {
++          "description": "Optional. Pattern of the Type.STRING to restrict a string to a regular expression.",
++          "type": "string"
++        },
++        "properties": {
++          "additionalProperties": {
++            "$ref": "GoogleAiGenerativelanguageV1betaSchema"
++          },
++          "description": "Optional. Properties of Type.OBJECT.",
++          "type": "object"
++        },
++        "propertyOrdering": {
++          "description": "Optional. The order of the properties. Not a standard field in open api spec. Used to determine the order of the properties in the response.",
++          "items": {
++            "type": "string"
++          },
++          "type": "array"
++        },
++        "required": {
++          "description": "Optional. Required properties of Type.OBJECT.",
++          "items": {
++            "type": "string"
++          },
++          "type": "array"
++        },
++        "title": {
++          "description": "Optional. The title of the schema.",
++          "type": "string"
++        },
++        "type": {
++          "description": "Required. Data type.",
++          "enum": [
++            "TYPE_UNSPECIFIED",
++            "STRING",
++            "NUMBER",
++            "INTEGER",
++            "BOOLEAN",
++            "ARRAY",
++            "OBJECT",
++            "NULL"
++          ],
++          "enumDescriptions": [
++            "Not specified, should not be used.",
++            "String type.",
++            "Number type.",
++            "Integer type.",
++            "Boolean type.",
++            "Array type.",
++            "Object type.",
++            "Null type."
++          ],
++          "type": "string"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaSearchEntryPoint": {
++      "description": "Google search entry point.",
++      "id": "GoogleAiGenerativelanguageV1betaSearchEntryPoint",
++      "properties": {
++        "renderedContent": {
++          "description": "Optional. Web content snippet that can be embedded in a web page or an app webview.",
++          "type": "string"
++        },
++        "sdkBlob": {
++          "description": "Optional. Base64 encoded JSON representing array of tuple.",
++          "format": "byte",
++          "type": "string"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaSegment": {
++      "description": "Segment of the content.",
++      "id": "GoogleAiGenerativelanguageV1betaSegment",
++      "properties": {
++        "endIndex": {
++          "description": "Output only. End index in the given Part, measured in bytes. Offset from the start of the Part, exclusive, starting at zero.",
++          "format": "int32",
++          "readOnly": true,
++          "type": "integer"
++        },
++        "partIndex": {
++          "description": "Output only. The index of a Part object within its parent Content object.",
++          "format": "int32",
++          "readOnly": true,
++          "type": "integer"
++        },
++        "startIndex": {
++          "description": "Output only. Start index in the given Part, measured in bytes. Offset from the start of the Part, inclusive, starting at zero.",
++          "format": "int32",
++          "readOnly": true,
++          "type": "integer"
++        },
++        "text": {
++          "description": "Output only. The text corresponding to the segment from the response.",
++          "readOnly": true,
++          "type": "string"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaSpeechConfig": {
++      "description": "The speech generation config.",
++      "id": "GoogleAiGenerativelanguageV1betaSpeechConfig",
++      "properties": {
++        "languageCode": {
++          "description": "Optional. Language code (in BCP 47 format, e.g. \"en-US\") for speech synthesis. Valid values are: de-DE, en-AU, en-GB, en-IN, en-US, es-US, fr-FR, hi-IN, pt-BR, ar-XA, es-ES, fr-CA, id-ID, it-IT, ja-JP, tr-TR, vi-VN, bn-IN, gu-IN, kn-IN, ml-IN, mr-IN, ta-IN, te-IN, nl-NL, ko-KR, cmn-CN, pl-PL, ru-RU, and th-TH.",
++          "type": "string"
++        },
++        "voiceConfig": {
++          "$ref": "GoogleAiGenerativelanguageV1betaVoiceConfig",
++          "description": "The configuration in case of single-voice output."
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaThinkingConfig": {
++      "description": "Config for thinking features.",
++      "id": "GoogleAiGenerativelanguageV1betaThinkingConfig",
++      "properties": {
++        "includeThoughts": {
++          "description": "Indicates whether to include thoughts in the response. If true, thoughts are returned only when available.",
++          "type": "boolean"
++        },
++        "thinkingBudget": {
++          "description": "The number of thoughts tokens that the model should generate.",
++          "format": "int32",
++          "type": "integer"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaTool": {
++      "description": "Tool details that the model may use to generate response. A `Tool` is a piece of code that enables the system to interact with external systems to perform an action, or set of actions, outside of knowledge and scope of the model.",
++      "id": "GoogleAiGenerativelanguageV1betaTool",
++      "properties": {
++        "codeExecution": {
++          "$ref": "GoogleAiGenerativelanguageV1betaCodeExecution",
++          "description": "Optional. Enables the model to execute code as part of generation."
++        },
++        "functionDeclarations": {
++          "description": "Optional. A list of `FunctionDeclarations` available to the model that can be used for function calling. The model or system does not execute the function. Instead the defined function may be returned as a FunctionCall with arguments to the client side for execution. The model may decide to call a subset of these functions by populating FunctionCall in the response. The next conversation turn may contain a FunctionResponse with the Content.role \"function\" generation context for the next model turn.",
++          "items": {
++            "$ref": "GoogleAiGenerativelanguageV1betaFunctionDeclaration"
++          },
++          "type": "array"
++        },
++        "googleSearch": {
++          "$ref": "GoogleAiGenerativelanguageV1betaToolGoogleSearch",
++          "description": "Optional. GoogleSearch tool type. Tool to support Google Search in Model. Powered by Google."
++        },
++        "googleSearchRetrieval": {
++          "$ref": "GoogleAiGenerativelanguageV1betaGoogleSearchRetrieval",
++          "description": "Optional. Retrieval tool that is powered by Google search."
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaToolConfig": {
++      "description": "The Tool configuration containing parameters for specifying `Tool` use in the request.",
++      "id": "GoogleAiGenerativelanguageV1betaToolConfig",
++      "properties": {
++        "functionCallingConfig": {
++          "$ref": "GoogleAiGenerativelanguageV1betaFunctionCallingConfig",
++          "description": "Optional. Function calling config."
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaToolGoogleSearch": {
++      "description": "GoogleSearch tool type. Tool to support Google Search in Model. Powered by Google.",
++      "id": "GoogleAiGenerativelanguageV1betaToolGoogleSearch",
++      "properties": {},
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaUrlRetrievalContext": {
++      "description": "Context of the a single url retrieval.",
++      "id": "GoogleAiGenerativelanguageV1betaUrlRetrievalContext",
++      "properties": {
++        "retrievedUrl": {
++          "description": "Retrieved url by the tool.",
++          "type": "string"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaUrlRetrievalMetadata": {
++      "description": "Metadata related to url context retrieval tool.",
++      "id": "GoogleAiGenerativelanguageV1betaUrlRetrievalMetadata",
++      "properties": {
++        "urlRetrievalContexts": {
++          "description": "List of url retrieval contexts.",
++          "items": {
++            "$ref": "GoogleAiGenerativelanguageV1betaUrlRetrievalContext"
++          },
++          "type": "array"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleAiGenerativelanguageV1betaVoiceConfig": {
++      "description": "The configuration for the voice to use.",
++      "id": "GoogleAiGenerativelanguageV1betaVoiceConfig",
++      "properties": {
++        "prebuiltVoiceConfig": {
++          "$ref": "GoogleAiGenerativelanguageV1betaPrebuiltVoiceConfig",
++          "description": "The configuration for the prebuilt voice to use."
++        }
++      },
++      "type": "object"
++    },
++    "GoogleCloudAiplatformV1beta1ApiAuth": {
++      "description": "The generic reusable api auth config. Deprecated. Please use AuthConfig (google/cloud/aiplatform/master/auth.proto) instead.",
++      "id": "GoogleCloudAiplatformV1beta1ApiAuth",
++      "properties": {
++        "apiKeyConfig": {
++          "$ref": "GoogleCloudAiplatformV1beta1ApiAuthApiKeyConfig",
++          "description": "The API secret."
++        }
++      },
++      "type": "object"
++    },
++    "GoogleCloudAiplatformV1beta1ApiAuthApiKeyConfig": {
++      "description": "The API secret.",
++      "id": "GoogleCloudAiplatformV1beta1ApiAuthApiKeyConfig",
++      "properties": {
++        "apiKeySecretVersion": {
++          "description": "Required. The SecretManager secret version resource name storing API key. e.g. projects/{project}/secrets/{secret}/versions/{version}",
++          "type": "string"
++        },
++        "apiKeyString": {
++          "description": "The API key string. Either this or `api_key_secret_version` must be set.",
++          "type": "string"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleCloudAiplatformV1beta1AuthConfig": {
++      "description": "Auth configuration to run the extension.",
++      "id": "GoogleCloudAiplatformV1beta1AuthConfig",
++      "properties": {
++        "apiKeyConfig": {
++          "$ref": "GoogleCloudAiplatformV1beta1AuthConfigApiKeyConfig",
++          "description": "Config for API key auth."
++        },
++        "authType": {
++          "description": "Type of auth scheme.",
++          "enum": [
++            "AUTH_TYPE_UNSPECIFIED",
++            "NO_AUTH",
++            "API_KEY_AUTH",
++            "HTTP_BASIC_AUTH",
++            "GOOGLE_SERVICE_ACCOUNT_AUTH",
++            "OAUTH",
++            "OIDC_AUTH"
++          ],
++          "enumDescriptions": [
++            "",
++            "No Auth.",
++            "API Key Auth.",
++            "HTTP Basic Auth.",
++            "Google Service Account Auth.",
++            "OAuth auth.",
++            "OpenID Connect (OIDC) Auth."
++          ],
++          "type": "string"
++        },
++        "googleServiceAccountConfig": {
++          "$ref": "GoogleCloudAiplatformV1beta1AuthConfigGoogleServiceAccountConfig",
++          "description": "Config for Google Service Account auth."
++        },
++        "httpBasicAuthConfig": {
++          "$ref": "GoogleCloudAiplatformV1beta1AuthConfigHttpBasicAuthConfig",
++          "description": "Config for HTTP Basic auth."
++        },
++        "oauthConfig": {
++          "$ref": "GoogleCloudAiplatformV1beta1AuthConfigOauthConfig",
++          "description": "Config for user oauth."
++        },
++        "oidcConfig": {
++          "$ref": "GoogleCloudAiplatformV1beta1AuthConfigOidcConfig",
++          "description": "Config for user OIDC auth."
++        }
++      },
++      "type": "object"
++    },
++    "GoogleCloudAiplatformV1beta1AuthConfigApiKeyConfig": {
++      "description": "Config for authentication with API key.",
++      "id": "GoogleCloudAiplatformV1beta1AuthConfigApiKeyConfig",
++      "properties": {
++        "apiKeySecret": {
++          "description": "Optional. The name of the SecretManager secret version resource storing the API key. Format: `projects/{project}/secrets/{secrete}/versions/{version}` - If both `api_key_secret` and `api_key_string` are specified, this field takes precedence over `api_key_string`. - If specified, the `secretmanager.versions.access` permission should be granted to Vertex AI Extension Service Agent (https://cloud.google.com/vertex-ai/docs/general/access-control#service-agents) on the specified resource.",
++          "type": "string"
++        },
++        "apiKeyString": {
++          "description": "Optional. The API key to be used in the request directly.",
++          "type": "string"
++        },
++        "httpElementLocation": {
++          "description": "Optional. The location of the API key.",
++          "enum": [
++            "HTTP_IN_UNSPECIFIED",
++            "HTTP_IN_QUERY",
++            "HTTP_IN_HEADER",
++            "HTTP_IN_PATH",
++            "HTTP_IN_BODY",
++            "HTTP_IN_COOKIE"
++          ],
++          "enumDescriptions": [
++            "",
++            "Element is in the HTTP request query.",
++            "Element is in the HTTP request header.",
++            "Element is in the HTTP request path.",
++            "Element is in the HTTP request body.",
++            "Element is in the HTTP request cookie."
++          ],
++          "type": "string"
++        },
++        "name": {
++          "description": "Optional. The parameter name of the API key. E.g. If the API request is \"https://example.com/act?api_key=\", \"api_key\" would be the parameter name.",
++          "type": "string"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleCloudAiplatformV1beta1AuthConfigGoogleServiceAccountConfig": {
++      "description": "Config for Google Service Account Authentication.",
++      "id": "GoogleCloudAiplatformV1beta1AuthConfigGoogleServiceAccountConfig",
++      "properties": {
++        "serviceAccount": {
++          "description": "Optional. The service account that the extension execution service runs as. - If the service account is specified, the `iam.serviceAccounts.getAccessToken` permission should be granted to Vertex AI Extension Service Agent (https://cloud.google.com/vertex-ai/docs/general/access-control#service-agents) on the specified service account. - If not specified, the Vertex AI Extension Service Agent will be used to execute the Extension.",
++          "type": "string"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleCloudAiplatformV1beta1AuthConfigHttpBasicAuthConfig": {
++      "description": "Config for HTTP Basic Authentication.",
++      "id": "GoogleCloudAiplatformV1beta1AuthConfigHttpBasicAuthConfig",
++      "properties": {
++        "credentialSecret": {
++          "description": "Required. The name of the SecretManager secret version resource storing the base64 encoded credentials. Format: `projects/{project}/secrets/{secrete}/versions/{version}` - If specified, the `secretmanager.versions.access` permission should be granted to Vertex AI Extension Service Agent (https://cloud.google.com/vertex-ai/docs/general/access-control#service-agents) on the specified resource.",
++          "type": "string"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleCloudAiplatformV1beta1AuthConfigOauthConfig": {
++      "description": "Config for user oauth.",
++      "id": "GoogleCloudAiplatformV1beta1AuthConfigOauthConfig",
++      "properties": {
++        "accessToken": {
++          "description": "Access token for extension endpoint. Only used to propagate token from [[ExecuteExtensionRequest.runtime_auth_config]] at request time.",
++          "type": "string"
++        },
++        "serviceAccount": {
++          "description": "The service account used to generate access tokens for executing the Extension. - If the service account is specified, the `iam.serviceAccounts.getAccessToken` permission should be granted to Vertex AI Extension Service Agent (https://cloud.google.com/vertex-ai/docs/general/access-control#service-agents) on the provided service account.",
++          "type": "string"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleCloudAiplatformV1beta1AuthConfigOidcConfig": {
++      "description": "Config for user OIDC auth.",
++      "id": "GoogleCloudAiplatformV1beta1AuthConfigOidcConfig",
++      "properties": {
++        "idToken": {
++          "description": "OpenID Connect formatted ID token for extension endpoint. Only used to propagate token from [[ExecuteExtensionRequest.runtime_auth_config]] at request time.",
++          "type": "string"
++        },
++        "serviceAccount": {
++          "description": "The service account used to generate an OpenID Connect (OIDC)-compatible JWT token signed by the Google OIDC Provider (accounts.google.com) for extension endpoint (https://cloud.google.com/iam/docs/create-short-lived-credentials-direct#sa-credentials-oidc). - The audience for the token will be set to the URL in the server url defined in the OpenApi spec. - If the service account is provided, the service account should grant `iam.serviceAccounts.getOpenIdToken` permission to Vertex AI Extension Service Agent (https://cloud.google.com/vertex-ai/docs/general/access-control#service-agents).",
++          "type": "string"
++        }
++      },
++      "type": "object"
++    },
+     "GoogleCloudAiplatformV1beta1Blob": {
+       "description": "Content blob.",
+       "id": "GoogleCloudAiplatformV1beta1Blob",
+@@ -577,6 +2434,74 @@
+       },
+       "type": "object"
+     },
++    "GoogleCloudAiplatformV1beta1ExternalApi": {
++      "description": "Retrieve from data source powered by external API for grounding. The external API is not owned by Google, but need to follow the pre-defined API spec.",
++      "id": "GoogleCloudAiplatformV1beta1ExternalApi",
++      "properties": {
++        "apiAuth": {
++          "$ref": "GoogleCloudAiplatformV1beta1ApiAuth",
++          "deprecated": true,
++          "description": "The authentication config to access the API. Deprecated. Please use auth_config instead."
++        },
++        "apiSpec": {
++          "description": "The API spec that the external API implements.",
++          "enum": [
++            "API_SPEC_UNSPECIFIED",
++            "SIMPLE_SEARCH",
++            "ELASTIC_SEARCH"
++          ],
++          "enumDescriptions": [
++            "Unspecified API spec. This value should not be used.",
++            "Simple search API spec.",
++            "Elastic search API spec."
++          ],
++          "type": "string"
++        },
++        "authConfig": {
++          "$ref": "GoogleCloudAiplatformV1beta1AuthConfig",
++          "description": "The authentication config to access the API."
++        },
++        "elasticSearchParams": {
++          "$ref": "GoogleCloudAiplatformV1beta1ExternalApiElasticSearchParams",
++          "description": "Parameters for the elastic search API."
++        },
++        "endpoint": {
++          "description": "The endpoint of the external API. The system will call the API at this endpoint to retrieve the data for grounding. Example: https://acme.com:443/search",
++          "type": "string"
++        },
++        "simpleSearchParams": {
++          "$ref": "GoogleCloudAiplatformV1beta1ExternalApiSimpleSearchParams",
++          "description": "Parameters for the simple search API."
++        }
++      },
++      "type": "object"
++    },
++    "GoogleCloudAiplatformV1beta1ExternalApiElasticSearchParams": {
++      "description": "The search parameters to use for the ELASTIC_SEARCH spec.",
++      "id": "GoogleCloudAiplatformV1beta1ExternalApiElasticSearchParams",
++      "properties": {
++        "index": {
++          "description": "The ElasticSearch index to use.",
++          "type": "string"
++        },
++        "numHits": {
++          "description": "Optional. Number of hits (chunks) to request. When specified, it is passed to Elasticsearch as the `num_hits` param.",
++          "format": "int32",
++          "type": "integer"
++        },
++        "searchTemplate": {
++          "description": "The ElasticSearch search template to use.",
++          "type": "string"
++        }
++      },
++      "type": "object"
++    },
++    "GoogleCloudAiplatformV1beta1ExternalApiSimpleSearchParams": {
++      "description": "The search parameters to use for SIMPLE_SEARCH spec.",
++      "id": "GoogleCloudAiplatformV1beta1ExternalApiSimpleSearchParams",
++      "properties": {},
++      "type": "object"
++    },
+     "GoogleCloudAiplatformV1beta1FileData": {
+       "description": "URI based data.",
+       "id": "GoogleCloudAiplatformV1beta1FileData",
+@@ -1114,6 +3039,10 @@
+       "description": "Config for thinking features.",
+       "id": "GoogleCloudAiplatformV1beta1GenerationConfigThinkingConfig",
+       "properties": {
++        "includeThoughts": {
++          "description": "Optional. Indicates whether to include thoughts in the response. If true, thoughts are returned only when available.",
++          "type": "boolean"
++        },
+         "thinkingBudget": {
+           "description": "Optional. Indicates the thinking budget in tokens. This is only applied when enable_thinking is true.",
+           "format": "int32",
+@@ -1595,6 +3524,10 @@
+           "description": "Optional. Deprecated. This option is no longer supported.",
+           "type": "boolean"
+         },
++        "externalApi": {
++          "$ref": "GoogleCloudAiplatformV1beta1ExternalApi",
++          "description": "Use data source powered by external API for grounding."
++        },
+         "vertexAiSearch": {
+           "$ref": "GoogleCloudAiplatformV1beta1VertexAISearch",
+           "description": "Set to use data source powered by Vertex AI Search."
+@@ -2072,6 +4005,13 @@
+       "description": "Retrieve from Vertex AI Search datastore or engine for grounding. datastore and engine are mutually exclusive. See https://cloud.google.com/products/agent-builder",
+       "id": "GoogleCloudAiplatformV1beta1VertexAISearch",
+       "properties": {
++        "dataStoreSpecs": {
++          "description": "Specifications that define the specific DataStores to be searched, along with configurations for those data stores. This is only considered for Engines with multiple data stores. It should only be set if engine is used.",
++          "items": {
++            "$ref": "GoogleCloudAiplatformV1beta1VertexAISearchDataStoreSpec"
++          },
++          "type": "array"
++        },
+         "datastore": {
+           "description": "Optional. Fully-qualified Vertex AI Search data store resource ID. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{dataStore}`",
+           "type": "string"
+@@ -2092,6 +4032,21 @@
+       },
+       "type": "object"
+     },
++    "GoogleCloudAiplatformV1beta1VertexAISearchDataStoreSpec": {
++      "description": "Define data stores within engine to filter on in a search call and configurations for those data stores. For more information, see https://cloud.google.com/generative-ai-app-builder/docs/reference/rpc/google.cloud.discoveryengine.v1#datastorespec",
++      "id": "GoogleCloudAiplatformV1beta1VertexAISearchDataStoreSpec",
++      "properties": {
++        "dataStore": {
++          "description": "Full resource name of DataStore, such as Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{dataStore}`",
++          "type": "string"
++        },
++        "filter": {
++          "description": "Optional. Filter specification to filter documents in the data store specified by data_store field. For more information on filtering, see [Filtering](https://cloud.google.com/generative-ai-app-builder/docs/filter-search-metadata)",
++          "type": "string"
++        }
++      },
++      "type": "object"
++    },
+     "GoogleCloudAiplatformV1beta1VertexRagStore": {
+       "description": "Retrieve from Vertex RAG Store for grounding.",
+       "id": "GoogleCloudAiplatformV1beta1VertexRagStore",
+@@ -2192,10 +4147,36 @@
+         }
+       },
+       "type": "object"
++    },
++    "TelemetryConfig": {
++      "description": "Service Configuration for Telemetry and Tracing, to allow monitoring the use of models referenced through the proxy.",
++      "id": "TelemetryConfig",
++      "properties": {
++        "mode": {
++          "description": "Optional. The current Monitoring Mode used for this project.",
++          "enum": [
++            "MODE_UNSPECIFIED",
++            "NONE",
++            "ALL"
++          ],
++          "enumDescriptions": [
++            "Unspecified mode. Not intended for use.",
++            "Telemetry is disabled by default.",
++            "Metrics, Logging, and Tracing are all enabled."
++          ],
++          "type": "string"
++        },
++        "samplingRate": {
++          "description": "Optional. The percentage of requests to be sampled, expressed as a fraction in the range (0,1]. Note that the actual sampling rate may be lower than the specified value if the system is overloaded. Default is 1.0.",
++          "format": "double",
++          "type": "number"
++        }
++      },
++      "type": "object"
+     }
+   },
+   "servicePath": "",
+-  "title": "Vertex AI in Firebase API",
++  "title": "Firebase AI Logic API",
+   "version": "v1beta",
+   "version_module": true
+ }
+```
+
+</details>
+
+
 ## 2025-04-23 UTC
 
 **Details (diff):**
